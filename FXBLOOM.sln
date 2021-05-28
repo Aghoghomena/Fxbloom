@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FXBLOOM.PresentationLayer", "FXBLOOM.PresentationLayer\FXBLOOM.PresentationLayer.csproj", "{DEFF360D-FB4D-45A7-BC0E-98C4639E5B9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FXBLOOM.ApplicationLayer", "FXBLOOM.ApplicationLayer\FXBLOOM.ApplicationLayer.csproj", "{22AFF20E-6710-4C3B-8020-269D1AEE769B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FXBLOOM.DomainLayer", "FXBLOOM.DomainLayer\FXBLOOM.DomainLayer.csproj", "{B3F65064-A386-489E-9A84-0C4D13DE7677}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FXBLOOM.InfrastructureLayer", "FXBLOOM.InfrastructureLayer\FXBLOOM.InfrastructureLayer.csproj", "{7BCFE353-31FC-4E9A-BF36-5896933B2BE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FXBLOOM.DataLayer", "FXBLOOM.DataLayer\FXBLOOM.DataLayer.csproj", "{91305F0F-9BC9-4DB3-B67D-0CFAB5A3117D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FXBLOOM.SharedKernel", "FXBLOOM.SharedKernel\FXBLOOM.SharedKernel.csproj", "{32286790-8CF0-434F-8D28-DC2BE697F47A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DEFF360D-FB4D-45A7-BC0E-98C4639E5B9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEFF360D-FB4D-45A7-BC0E-98C4639E5B9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEFF360D-FB4D-45A7-BC0E-98C4639E5B9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEFF360D-FB4D-45A7-BC0E-98C4639E5B9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22AFF20E-6710-4C3B-8020-269D1AEE769B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22AFF20E-6710-4C3B-8020-269D1AEE769B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22AFF20E-6710-4C3B-8020-269D1AEE769B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22AFF20E-6710-4C3B-8020-269D1AEE769B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3F65064-A386-489E-9A84-0C4D13DE7677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3F65064-A386-489E-9A84-0C4D13DE7677}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3F65064-A386-489E-9A84-0C4D13DE7677}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3F65064-A386-489E-9A84-0C4D13DE7677}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BCFE353-31FC-4E9A-BF36-5896933B2BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BCFE353-31FC-4E9A-BF36-5896933B2BE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BCFE353-31FC-4E9A-BF36-5896933B2BE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BCFE353-31FC-4E9A-BF36-5896933B2BE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91305F0F-9BC9-4DB3-B67D-0CFAB5A3117D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91305F0F-9BC9-4DB3-B67D-0CFAB5A3117D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91305F0F-9BC9-4DB3-B67D-0CFAB5A3117D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91305F0F-9BC9-4DB3-B67D-0CFAB5A3117D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32286790-8CF0-434F-8D28-DC2BE697F47A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32286790-8CF0-434F-8D28-DC2BE697F47A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32286790-8CF0-434F-8D28-DC2BE697F47A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32286790-8CF0-434F-8D28-DC2BE697F47A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {033A1F83-CA57-4892-93BC-4BDC709A3D39}
+	EndGlobalSection
+EndGlobal
