@@ -40,8 +40,10 @@ namespace FXBLOOM.PresentationLayer
 
             services.AddDbContext<FXBloomContext>(options =>
             {
-                options.UseSqlServer("server=DESKTOP-74QMUAQ\\TEW_SQLEXPRESSdatabase=FxBloom;Trusted_Connection=true;");
+                options.UseSqlServer("server=DESKTOP-74QMUAQ\\TEW_SQLEXPRESS;database=FxBloom;Trusted_Connection=true;");
             });
+
+         
 
             services.AddMvc(config =>
             {
@@ -57,6 +59,7 @@ namespace FXBLOOM.PresentationLayer
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.JsonSerializerOptions.IgnoreNullValues = false;
+                //options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve
             });
 
             services.InfrastructureLayerServices();

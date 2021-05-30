@@ -1,4 +1,5 @@
-﻿using FXBLOOM.SharedKernel;
+﻿using FXBLOOM.DataLayer.Interface;
+using FXBLOOM.SharedKernel;
 using FXBLOOM.SharedKernel.Logging.NlogFile;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,16 +16,23 @@ namespace FXBLOOM.PresentationLayer.Controllers
     public class CustomerController : BaseController
     {
         private ILog _logger;
-        public CustomerController(ILog logger)
+        private ICustomerRepository _customerRepository;
+        public CustomerController(ILog logger, ICustomerRepository customerRepository)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _customerRepository = customerRepository;
         }
+
+
+
 
         [HttpGet]
         [Produces(typeof(ResponseWrapper<string>))]
-        public IActionResult HelloWorld()
+        public IActionResult Get()
         {
-            return Ok("Hello World");
+            //return Ok("Hello World");
+
+            return Ok(_customerRepository.GetCustomers());
         }
     }
 }

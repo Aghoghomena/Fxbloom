@@ -48,5 +48,7 @@ namespace FXBLOOM.DataLayer.Interface
         Task<PagedQueryResult<ReturnEntity>> GetAllAsync<ReturnEntity, TOrderBy>(Expression<Func<TEntity, bool>> filter,
             Expression<Func<TEntity, TOrderBy>> orderBy, PagedQueryRequest pagedQueryRequest);
         Task<IQueryable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includeProperties);
+
+        IQueryable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] includeProperties);
     }
 }

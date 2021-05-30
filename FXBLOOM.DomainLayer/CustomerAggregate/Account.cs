@@ -11,6 +11,8 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
         public string AccountNumber { get; private set; }
         public string BankName { get; private set; }
 
+        public Guid CustomerId { get;  set; }
+
         internal static Account GetAccount(string number, string bankName)
         {
             Account account = new Account();

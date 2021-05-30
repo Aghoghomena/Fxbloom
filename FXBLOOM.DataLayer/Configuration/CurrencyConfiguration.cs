@@ -12,9 +12,9 @@ namespace FXBLOOM.DataLayer.Configuration
         public void Configure(EntityTypeBuilder<Currency> builder)
         {
             builder.HasKey(e => e.Id);
+            builder.Property(e => e.Id).ValueGeneratedOnAdd();
             builder.Property(e => e.CurrencyType).HasMaxLength(500).IsRequired();
-            builder.Property(e => e.Amount).IsRequired();
-
+            builder.Property(e => e.Amount).HasColumnType("decimal(18,4)").IsRequired();
 
         }
     

@@ -13,9 +13,8 @@ namespace FXBLOOM.DataLayer.Configuration
         public void Configure(EntityTypeBuilder<Account> builder)
         {
             builder.HasKey(e => e.Id);
-            builder.Property(e => e.BankName).HasMaxLength(500).IsRequired();
-            builder.Property(e => e.AccountNumber).HasMaxLength(100).IsRequired();
-      
+            builder.Property(e => e.Id).ValueGeneratedOnAdd();
+
         }
 
     }

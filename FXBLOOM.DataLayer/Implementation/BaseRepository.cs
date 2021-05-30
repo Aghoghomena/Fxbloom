@@ -150,6 +150,33 @@ namespace FXBLOOM.DataLayer.Implementation
             return await Task.FromResult(this.Entity.AsQueryable<TEntity>());
         }
 
+        //public async Task<IQueryable<TEntity>> GetAllAsyncWithChildren()
+        //{
+        //    return await this.Entity.Include("Country").AsQueryable()
+        //       ;
+        //}
+
+        //single entity
+        //public IQueryable<TEntity> GetAll(Expression<Func<TEntity, object>> includeProperties)
+        //{
+        //    if (includeProperties != null)
+        //    {
+        //        return this.Entity.Include(includeProperties).AsQueryable<TEntity>();
+        //    }
+        //    return this.Entity.AsQueryable<TEntity>();
+        //}
+
+        public IQueryable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            IQueryable<TEntity> query = Entity;
+            if (includeProperties != null)
+            {
+                query = includeProperties.Aggregate(query,
+                          (current, include) => current.Include(include));
+            }
+            return query.AsQueryable<TEntity>();
+        }
+
         public async Task<PagedQueryResult<ReturnEntity>> GetAllAsync<ReturnEntity, TOrderBy>(Expression<Func<TEntity, bool>> filter,
             Expression<Func<TEntity, TOrderBy>> orderBy, PagedQueryRequest pagedQueryRequest)
         {

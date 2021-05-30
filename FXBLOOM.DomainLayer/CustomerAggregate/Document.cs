@@ -13,6 +13,8 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
         public string IDNumber { get; private set; }
         public DocumentType DocumentType { get; private set; }
 
+        public Guid CustomerId { get; private set; }
+
         internal static Document CreateDocument(DocumentDto documentDto)
         {
             return new Document();

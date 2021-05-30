@@ -44,11 +44,11 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             if(bid.Amount == null || bid.CustomerId == default(Guid)) { response.Message = "Invalid Bid";
                                     response.Status = false; return response; }
 
-            if (bid.Amount.CurrencyType != AmountNeeded.CurrencyType) {
-                response.Message = "Not expected currency";
-                response.Status = false;
-                return response;
-            }
+            //if (bid.Amount.CurrencyType != AmountNeeded.CurrencyType) {
+            //    response.Message = "Not expected currency";
+            //    response.Status = false;
+            //    return response;
+            //}
 
             if (HasReachedBiddingLimit())
             {

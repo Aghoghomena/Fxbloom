@@ -8,21 +8,25 @@ using System.Threading.Tasks;
 using FXBLOOM.SharedKernel;
 using FXBLOOM.SharedKernel.Query;
 using FXBLOOM.DomainLayer.CustomerAggregate.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace FXBLOOM.DataLayer.Implementation
 {
     public class CustomerRepository : ManagerBase<Customer>, ICustomerRepository
     {
+        private FXBloomContext _context;
         public CustomerRepository(FXBloomContext context):base(context)
         {
-
+            _context = context;
         }
 
-        public async Task<IEnumerable<Customer>> GetCustomers()
+        public async Task<List<Customer>> GetCustomers()
         {
-            var customers = await GetAllAsync().ConfigureAwait(false);
+            var customers = await GetAll(e => e.Country).ToListAsync();
 
+            //var customers2 = await _context.Customers.Include(a => a.Country.).ToListAsync();
             return customers;
+
         }
 
         public async Task<Customer> GetCustomer(Guid customerID)

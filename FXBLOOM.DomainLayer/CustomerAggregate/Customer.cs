@@ -12,6 +12,23 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
     {
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
+
+        public string OtherName { get; private set; }
+
+        public string PhoneNo { get; private set; }
+
+        public int CountryId { get; private set; }
+        public virtual Country Country { get; set; }
+
+        //public State CustomerState { get; set; }
+
+        public string PostalCode { get; set; }
+
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+
+        public string Address { get; set; }
         public CustomerStatus CustomerStatus { get; private set; }
         public Account Account { get; private set; }
         public Document Documentation { get; private set; }
@@ -31,6 +48,13 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             Customer customer = new Customer();
             customer.FirstName = customerDto.FirstName;
             customer.LastName = customerDto.LastName;
+            customer.OtherName = customerDto.OtherName;
+            customer.PhoneNo = customerDto.PhoneNo;
+            customer.PostalCode = customerDto.PostalCode;
+            customer.Address = customerDto.Address;
+            customer.Email = customerDto.Email;
+            customer.Password = customerDto.Password;
+            customer.CountryId = customerDto.CountryId;
 
             return customer;
         }
@@ -46,6 +70,8 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             var listing = _listings.SingleOrDefault(e => e.Id == listingId);
             return listing;
         }
+
+      
 
         public IReadOnlyCollection<Listing> GetListings()
         {
