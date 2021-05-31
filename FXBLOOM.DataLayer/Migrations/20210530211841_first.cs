@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FXBLOOM.DataLayer.Migrations
 {
-    public partial class First : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,6 +45,7 @@ namespace FXBLOOM.DataLayer.Migrations
                     OtherName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CountryId = table.Column<int>(type: "int", nullable: false),
+                    StateId = table.Column<int>(type: "int", nullable: true),
                     PostalCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -62,6 +63,27 @@ namespace FXBLOOM.DataLayer.Migrations
                         principalTable: "Country",
                         principalColumn: "CountryId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "State",
+                columns: table => new
+                {
+                    StateId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Statename = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    CountryId = table.Column<int>(type: "int", nullable: false),
+                    Dateadded = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_State", x => x.StateId);
+                    table.ForeignKey(
+                        name: "FK_State_Country_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Country",
+                        principalColumn: "CountryId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,6 +230,12 @@ namespace FXBLOOM.DataLayer.Migrations
                 name: "IX_Listing_CustomerId",
                 table: "Listing",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_State_CountryId",
+                table: "State",
+                column: "CountryId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -220,6 +248,9 @@ namespace FXBLOOM.DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Document");
+
+            migrationBuilder.DropTable(
+                name: "State");
 
             migrationBuilder.DropTable(
                 name: "Listing");

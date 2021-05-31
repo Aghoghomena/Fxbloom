@@ -50,13 +50,16 @@ namespace FXBLOOM.DataLayer.Configuration
                      .HasForeignKey(d => d.CountryId)
                      .HasConstraintName("CustomerCountry").IsRequired(false);
 
-
+            //builder.HasOne(d => d.State)
+            //.WithMany(p => p.Customers)
+            //.HasForeignKey(d => d.StateId)
+            //.HasConstraintName("StateCountry").IsRequired(false);
 
             var listingNavigation = builder.Metadata.FindNavigation(nameof(Customer.Listings));
             listingNavigation.SetField("_listings");
             listingNavigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-            //var custNavigation = builder.Metadata.FindNavigation(nameof(Customer.Country));
-            //custNavigation.SetField("Country");
+            //var custNavigation = builder.Metadata.FindNavigation(nameof(Customer.State));
+            //custNavigation.SetField("State");
             //custNavigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }

@@ -20,22 +20,24 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
         public int CountryId { get; private set; }
         public virtual Country Country { get; set; }
 
-        //public State CustomerState { get; set; }
+        public int? StateId { get; private set; }
 
-        public string PostalCode { get; set; }
+        public virtual State State { get;  private set; }
 
-        public string Email { get; set; }
+        public string PostalCode { get; private set; }
 
-        public string Password { get; set; }
+        public string Email { get; private set; }
 
-        public string Address { get; set; }
+        public string Password { get; private set; }
+
+        public string Address { get; private set; }
         public CustomerStatus CustomerStatus { get; private set; }
         public Account Account { get; private set; }
         public Document Documentation { get; private set; }
 
         public List<Listing> _listings;
         public IReadOnlyCollection<Listing> Listings => _listings;
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get; private set; } = System.DateTime.Now;
         public DateTime DateConfirmed { get; set; }
 
         public Customer():base(Guid.NewGuid())
@@ -55,6 +57,7 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             customer.Email = customerDto.Email;
             customer.Password = customerDto.Password;
             customer.CountryId = customerDto.CountryId;
+            customer.StateId = customerDto.StateId;
 
             return customer;
         }

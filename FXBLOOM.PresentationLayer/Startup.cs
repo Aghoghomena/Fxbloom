@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,7 @@ namespace FXBLOOM.PresentationLayer
         {
             services.AddSingleton<ILog, LogNLog>();
             services.AddControllers();
+           
             var connStr = Configuration.GetConnectionString("FXBLOOMConnectionString");
 
             services.AddDbContext<FXBloomContext>(options =>
@@ -43,7 +45,12 @@ namespace FXBLOOM.PresentationLayer
                 options.UseSqlServer("server=DESKTOP-74QMUAQ\\TEW_SQLEXPRESS;database=FxBloom;Trusted_Connection=true;");
             });
 
-         
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.All,
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+            };
+
 
             services.AddMvc(config =>
             {
@@ -59,6 +66,7 @@ namespace FXBLOOM.PresentationLayer
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.JsonSerializerOptions.IgnoreNullValues = false;
+
                 //options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve
             });
 

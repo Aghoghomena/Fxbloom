@@ -26,7 +26,7 @@ namespace FXBLOOM.DataLayer.Context
 
             //move all this to their configuration folders
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
-            //modelBuilder.ApplyConfiguration(new DocumentConfiguration());
+            modelBuilder.ApplyConfiguration(new StateConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

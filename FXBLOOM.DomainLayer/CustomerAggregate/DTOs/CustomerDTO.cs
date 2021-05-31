@@ -20,6 +20,7 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate.DTOs
 
         public int  CountryId { get; set; }
 
+        public int StateId { get; set; }
 
         public string Email { get; set; }
 

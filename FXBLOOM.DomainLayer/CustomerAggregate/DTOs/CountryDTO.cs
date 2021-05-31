@@ -10,9 +10,9 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate.DTOs
         public int CountryId { get; private set; }
         public string CountryName { get; private set; }
 
-        //public static explicit operator Country(CountryDTO dt)
-        //{
-        //    return JsonConvert.DeserializeObject<Country>(JsonConvert.SerializeObject(dt));
-        //}
+        public static explicit operator Country(CountryDTO dt)
+        {
+            return JsonConvert.DeserializeObject<Country>(JsonConvert.SerializeObject(dt));
+        }
     }
 }

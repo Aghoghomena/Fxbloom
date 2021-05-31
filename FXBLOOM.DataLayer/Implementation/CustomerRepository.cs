@@ -20,9 +20,15 @@ namespace FXBLOOM.DataLayer.Implementation
             _context = context;
         }
 
-        public async Task<List<Customer>> GetCustomers()
+        //public async Task<IEnumerable<Customer>> GetCustomers()
+        //{
+        //    var customers = await GetAllAsync().ConfigureAwait(false);
+
+        //    return customers;
+        //}
+        public Task<List<Customer>> GetCustomers()
         {
-            var customers = await GetAll(e => e.Country).ToListAsync();
+            var customers =  GetAll(e => e.Country, f => f.State).ToListAsync();
 
             //var customers2 = await _context.Customers.Include(a => a.Country.).ToListAsync();
             return customers;

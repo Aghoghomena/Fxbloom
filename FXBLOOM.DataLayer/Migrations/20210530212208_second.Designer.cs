@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FXBLOOM.DataLayer.Migrations
 {
     [DbContext(typeof(FXBloomContext))]
-    [Migration("20210529231616_First")]
-    partial class First
+    [Migration("20210530212208_second")]
+    partial class second
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -132,9 +132,16 @@ namespace FXBLOOM.DataLayer.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("StateId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("StateId")
+                        .IsUnique()
+                        .HasFilter("[StateId] IS NOT NULL");
 
                     b.ToTable("Customers");
                 });
@@ -198,6 +205,32 @@ namespace FXBLOOM.DataLayer.Migrations
                     b.ToTable("Listing");
                 });
 
+            modelBuilder.Entity("FXBLOOM.DomainLayer.CustomerAggregate.State", b =>
+                {
+                    b.Property<int>("StateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Dateadded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Statename")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("StateId");
+
+                    b.HasIndex("CountryId")
+                        .IsUnique();
+
+                    b.ToTable("State");
+                });
+
             modelBuilder.Entity("FXBLOOM.DomainLayer.CustomerAggregate.Bid", b =>
                 {
                     b.HasOne("FXBLOOM.DomainLayer.CustomerAggregate.Currency", "Amount")
@@ -219,6 +252,10 @@ namespace FXBLOOM.DataLayer.Migrations
                         .WithMany("Customers")
                         .HasForeignKey("CountryId")
                         .HasConstraintName("CustomerCountry");
+
+                    b.HasOne("FXBLOOM.DomainLayer.CustomerAggregate.State", "State")
+                        .WithOne("Customers")
+                        .HasForeignKey("FXBLOOM.DomainLayer.CustomerAggregate.Customer", "StateId");
 
                     b.OwnsOne("FXBLOOM.DomainLayer.CustomerAggregate.Account", "Account", b1 =>
                         {
@@ -254,6 +291,8 @@ namespace FXBLOOM.DataLayer.Migrations
                     b.Navigation("Account");
 
                     b.Navigation("Country");
+
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("FXBLOOM.DomainLayer.CustomerAggregate.Document", b =>
@@ -286,9 +325,22 @@ namespace FXBLOOM.DataLayer.Migrations
                     b.Navigation("AmountNeeded");
                 });
 
+            modelBuilder.Entity("FXBLOOM.DomainLayer.CustomerAggregate.State", b =>
+                {
+                    b.HasOne("FXBLOOM.DomainLayer.CustomerAggregate.Country", "Country")
+                        .WithOne("State")
+                        .HasForeignKey("FXBLOOM.DomainLayer.CustomerAggregate.State", "CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
             modelBuilder.Entity("FXBLOOM.DomainLayer.CustomerAggregate.Country", b =>
                 {
                     b.Navigation("Customers");
+
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("FXBLOOM.DomainLayer.CustomerAggregate.Customer", b =>
@@ -301,6 +353,11 @@ namespace FXBLOOM.DataLayer.Migrations
             modelBuilder.Entity("FXBLOOM.DomainLayer.CustomerAggregate.Listing", b =>
                 {
                     b.Navigation("Bids");
+                });
+
+            modelBuilder.Entity("FXBLOOM.DomainLayer.CustomerAggregate.State", b =>
+                {
+                    b.Navigation("Customers");
                 });
 #pragma warning restore 612, 618
         }
