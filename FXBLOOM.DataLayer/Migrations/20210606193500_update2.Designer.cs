@@ -4,14 +4,16 @@ using FXBLOOM.DataLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FXBLOOM.DataLayer.Migrations
 {
     [DbContext(typeof(FXBloomContext))]
-    partial class FXBloomContextModelSnapshot : ModelSnapshot
+    [Migration("20210606193500_update2")]
+    partial class update2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

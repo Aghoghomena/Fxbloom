@@ -30,6 +30,8 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
 
         public string Password { get; private set; }
 
+        public string Img { get; private set; }
+
         public string Address { get; private set; }
         public CustomerStatus CustomerStatus { get; private set; }
         public Account Account { get; private set; }
@@ -38,13 +40,12 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
         public List<Listing> _listings;
         public IReadOnlyCollection<Listing> Listings => _listings;
         public DateTime DateCreated { get; private set; } = System.DateTime.Now;
-        public DateTime DateConfirmed { get; set; }
+        public DateTime? DateConfirmed { get; set; }
 
         public Customer():base(Guid.NewGuid())
         {
             _listings = new List<Listing>();
         }
-
         public static Customer CreateCustomer(CustomerDTO customerDto)
         {
             Customer customer = new Customer();
@@ -58,6 +59,8 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             customer.Password = customerDto.Password;
             customer.CountryId = customerDto.CountryId;
             customer.StateId = customerDto.StateId;
+            customer.Img = customerDto.Img;
+            customer.CustomerStatus = CustomerStatus.PENDING;
 
             return customer;
         }

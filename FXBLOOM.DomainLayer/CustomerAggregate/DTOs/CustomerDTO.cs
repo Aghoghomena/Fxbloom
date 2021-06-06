@@ -14,9 +14,9 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate.DTOs
 
         public string PostalCode { get; set; }
 
-        public string PhoneNo { get; private set; }
+        public string PhoneNo { get; set; }
 
-        public string OtherName { get; private set; }
+        public string OtherName { get; set; }
 
         public int  CountryId { get; set; }
 
@@ -25,6 +25,9 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate.DTOs
         public string Email { get; set; }
 
         public string Password { get; set; }
+
+
+        public string Img { get; set; }
 
 
 

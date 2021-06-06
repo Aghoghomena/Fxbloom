@@ -16,6 +16,7 @@ namespace FXBLOOM.DataLayer.Configuration
             builder.Property(e => e.FirstName).HasMaxLength(100).IsRequired();
             builder.Property(e => e.Email).HasMaxLength(100).IsRequired();
             builder.Property(e => e.Address).HasMaxLength(500);
+            builder.Property(e => e.Img).HasMaxLength(500);
             builder.Property(e => e.PostalCode).HasMaxLength(100);
             builder.Property(e => e.Password).HasMaxLength(100);
             builder.OwnsOne(e => e.Account, a =>

@@ -4,14 +4,16 @@ using FXBLOOM.DataLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FXBLOOM.DataLayer.Migrations
 {
     [DbContext(typeof(FXBloomContext))]
-    partial class FXBloomContextModelSnapshot : ModelSnapshot
+    [Migration("20210606182652_CustomerImg")]
+    partial class CustomerImg
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,7 +97,7 @@ namespace FXBLOOM.DataLayer.Migrations
                     b.Property<int>("CustomerStatus")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DateConfirmed")
+                    b.Property<DateTime>("DateConfirmed")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateCreated")

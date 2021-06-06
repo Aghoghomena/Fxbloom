@@ -1,5 +1,6 @@
 ﻿using FXBLOOM.DataLayer.Interface;
 using FXBLOOM.DomainLayer.CustomerAggregate;
+using FXBLOOM.DomainLayer.CustomerAggregate.DTOs;
 using FXBLOOM.SharedKernel;
 using FXBLOOM.SharedKernel.Logging.NlogFile;
 using Microsoft.AspNetCore.Http;
@@ -38,11 +39,21 @@ namespace FXBLOOM.PresentationLayer.Controllers
 
         [HttpPost]
         [Produces(typeof(ResponseWrapper<string>))]
-        public IActionResult CreateCustomer(Customer customer)
+        public IActionResult CreateCustomer(CustomerDTO customerDTO)
         {
             //return Ok("Hello World");
-             _customerRepository.AddCustomer(customer);
-            return Ok();
+            //validate after
+            try
+            {
+                Customer cs = new Customer();
+                var test =  _customerRepository.AddCustomer(Customer.CreateCustomer(customerDTO));
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return Error(ex.Message);
+            }
+
         }
     }
 }
