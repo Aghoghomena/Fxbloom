@@ -42,7 +42,7 @@ namespace FXBLOOM.PresentationLayer
 
             services.AddDbContext<FXBloomContext>(options =>
             {
-                options.UseSqlServer("server=DESKTOP-74QMUAQ\\TEW_SQLEXPRESS;database=FxBloom;Trusted_Connection=true;");
+                options.UseSqlServer(connStr);
             });
 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
