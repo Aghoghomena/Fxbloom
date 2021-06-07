@@ -2,6 +2,7 @@ using FXBLOOM.ApplicationLayer;
 using FXBLOOM.DataLayer;
 using FXBLOOM.DataLayer.Context;
 using FXBLOOM.InfrastructureLayer;
+using FXBLOOM.SharedKernel;
 using FXBLOOM.SharedKernel.Logging.NlogFile;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,8 +26,10 @@ namespace FXBLOOM.PresentationLayer
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
+
             Configuration = configuration;
         }
 
@@ -137,6 +140,18 @@ namespace FXBLOOM.PresentationLayer
                     });
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      //builder.WithOrigins("")
+                                      builder.AllowAnyOrigin()
+                                                            .AllowAnyHeader()
+                                                            .AllowAnyMethod();
+                                  });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -145,11 +160,19 @@ namespace FXBLOOM.PresentationLayer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseMiddleware<ExceptionMiddleware>();
+                
+            }
+            else
+            {
+                app.UseMiddleware<ExceptionMiddleware>();
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 

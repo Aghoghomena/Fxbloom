@@ -26,10 +26,7 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate.DTOs
 
         public string Password { get; set; }
 
-
         public string Img { get; set; }
-
-
 
 
     }

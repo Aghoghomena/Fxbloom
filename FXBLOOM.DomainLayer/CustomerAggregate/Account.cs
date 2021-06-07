@@ -7,7 +7,6 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
 {
     public class Account:ValueObject<Account>
     {
-        public int Id { get; set; }
         public string AccountNumber { get; private set; }
         public string BankName { get; private set; }
 

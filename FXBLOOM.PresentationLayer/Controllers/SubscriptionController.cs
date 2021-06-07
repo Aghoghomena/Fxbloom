@@ -1,5 +1,6 @@
 ﻿using FXBLOOM.DataLayer.Interface;
 using FXBLOOM.DomainLayer.SubsriptionAggregate;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace FXBLOOM.PresentationLayer.Controllers
 {
+    
     [ApiController]
     public class SubscriptionController : ControllerBase
     {

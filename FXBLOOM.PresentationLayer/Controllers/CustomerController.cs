@@ -39,20 +39,15 @@ namespace FXBLOOM.PresentationLayer.Controllers
 
         [HttpPost]
         [Produces(typeof(ResponseWrapper<string>))]
-        public IActionResult CreateCustomer(CustomerDTO customerDTO)
+        public async Task<IActionResult>  CreateCustomer(CustomerDTO customerDTO)
         {
-            //return Ok("Hello World");
-            //validate after
-            try
+            var response =  await _customerRepository.AddCustomer(Customer.CreateCustomer(customerDTO));
+            if(response == false)
             {
-                Customer cs = new Customer();
-                var test =  _customerRepository.AddCustomer(Customer.CreateCustomer(customerDTO));
-                return Ok();
+                return Error("OOPS Something went wrong with the code");
             }
-            catch(Exception ex)
-            {
-                return Error(ex.Message);
-            }
+                return Ok("Customer Created Sucessfully");
+            
 
         }
     }
