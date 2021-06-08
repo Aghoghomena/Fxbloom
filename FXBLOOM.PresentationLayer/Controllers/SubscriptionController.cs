@@ -44,7 +44,11 @@ namespace FXBLOOM.PresentationLayer.Controllers
                 return BadRequest($"Email {sub.email} exists");
             }
 
-            _ = _subscription.AddSubscription(sub);
+            bool response = _subscription.AddSubscription(sub);
+            if(response is false)
+            {
+                return Error("Oops something went wrong. Try again.");
+            }
 
             return Ok("Email saved successfully.");
         }
