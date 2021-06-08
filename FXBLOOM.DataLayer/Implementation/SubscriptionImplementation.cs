@@ -16,12 +16,11 @@ namespace FXBLOOM.DataLayer.Implementation
             _context = context;
         }
 
-        public Subscription AddSubscription(Subscription sub)
+        public bool AddSubscription(Subscription sub)
         {
-            //validate the email
             _context.Subscriptions.Add(sub);
-            _context.SaveChanges();
-            return sub;
+            int res = _context.SaveChanges();
+            return res > 0 ? true : false;
         }
 
         public Subscription GetSingleSubscription(string email)
@@ -30,29 +29,6 @@ namespace FXBLOOM.DataLayer.Implementation
             return existing;
 
         }
-
-        //public void DeleteSubscription(Subscription sub)
-        //{
-        //    //throw new NotImplementedException();
-        //    var existing = _subContext.Subscriptions.Find(sub.email);
-        //    if (existing != null)
-        //    {
-        //        _subContext.Subscriptions.Remove(existing);
-        //        _subContext.SaveChanges();
-        //    }
-        //}
-
-        //public Employee EditSubscription(Subscription sub)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Subscription GetSingleSubscription(string email)
-        //{
-        //    var existing = _subContext.Subscriptions.Where(c => c.email == email).FirstOrDefault();
-        //    return existing;
-
-        //}
 
         public List<Subscription> GetSubscriptions()
         {

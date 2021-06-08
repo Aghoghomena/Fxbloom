@@ -1,5 +1,6 @@
 ﻿using FXBLOOM.DataLayer.Interface;
 using FXBLOOM.DomainLayer.SubsriptionAggregate;
+using FXBLOOM.SharedKernel;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace FXBLOOM.PresentationLayer.Controllers
 {
-    
+
     [ApiController]
-    public class SubscriptionController : ControllerBase
+    public class SubscriptionController : BaseController
     {
 
 
@@ -25,6 +26,7 @@ namespace FXBLOOM.PresentationLayer.Controllers
 
         [HttpGet]
         [Route("api/[controller]")]
+        [Produces(typeof(ResponseWrapper<List<Subscription>>))]
         public IActionResult getEmployees()
         {
             return Ok(_subscription.GetSubscriptions());
@@ -32,30 +34,21 @@ namespace FXBLOOM.PresentationLayer.Controllers
 
         [HttpPost]
         [Route("api/[controller]")]
+        [Produces(typeof(ResponseWrapper<string>))]
         public IActionResult CreateSubscription(Subscription sub)
         {
 
-            try
+            var existing = _subscription.GetSingleSubscription(sub.email);
+            if (existing != null)
             {
-                //validate email
-                var existing = _subscription.GetSingleSubscription(sub.email);
-                if (existing == null)
-                {
-                    _subscription.AddSubscription(sub);
+                return BadRequest($"Email {sub.email} exists");
+            }
 
-                    var status = "Success";
-                    return Ok(status);
-                }
-                else
-                {
-                    return BadRequest($"Email {sub.email} exists");
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _ = _subscription.AddSubscription(sub);
+
+            return Ok("Email saved successfully.");
         }
 
     }
+
 }

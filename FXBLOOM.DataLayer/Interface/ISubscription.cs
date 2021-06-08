@@ -14,7 +14,7 @@ namespace FXBLOOM.DataLayer.Interface
         Subscription GetSingleSubscription(string email);
 
         //create employee
-        Subscription AddSubscription(Subscription sub);
+        bool AddSubscription(Subscription sub);
 
         //delete employee
         //void DeleteSubscription(Subscription sub);
