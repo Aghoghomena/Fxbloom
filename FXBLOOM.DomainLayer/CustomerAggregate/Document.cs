@@ -9,11 +9,12 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
 {
     public class Document : ValueObject<Document>
     {
-        public int Id { get; private set; }
         public string IDNumber { get; private set; }
         public DocumentType DocumentType { get; private set; }
 
         public Guid CustomerId { get; private set; }
+
+        public string Img { get; private set; }
 
         internal static Document CreateDocument(DocumentDto documentDto)
         {

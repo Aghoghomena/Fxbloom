@@ -12,8 +12,8 @@ namespace FXBLOOM.DataLayer.Configuration
     {
         public void Configure(EntityTypeBuilder<Account> builder)
         {
-            builder.HasKey(e => e.Id);
-            builder.Property(e => e.Id).ValueGeneratedOnAdd();
+            //builder.HasKey(e => e.Id);
+            //builder.Property(e => e.Id).ValueGeneratedOnAdd();
 
         }
 

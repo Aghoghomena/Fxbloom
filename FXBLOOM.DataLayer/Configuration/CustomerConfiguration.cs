@@ -23,21 +23,15 @@ namespace FXBLOOM.DataLayer.Configuration
             {
                 a.Property(d => d.AccountNumber).HasMaxLength(500).IsRequired();
                 a.Property(d => d.BankName).HasMaxLength(100).IsRequired();
-                a.HasKey(d => d.Id);
-                a.Property(d=> d.Id).ValueGeneratedOnAdd();
-                a.WithOwner().HasForeignKey("CustomerId");
             });
 
 
-            //builder.OwnsOne(e => e.Documentation, f =>
-            // {
-            //     f.Property(s => s.DocumentType).IsRequired();
-            //     f.Property(s => s.IDNumber).HasMaxLength(50).IsRequired();
-            //     f.HasKey(s => s.Id);
-            //     f.Property(s => s.Id).ValueGeneratedOnAdd();
-            //     f.WithOwner().HasForeignKey("CustomerId");
+            builder.OwnsOne(e => e.Documentation, f =>
+             {
+                 f.Property(s => s.DocumentType).IsRequired();
+                 f.Property(s => s.IDNumber).HasMaxLength(50).IsRequired();
 
-            // });
+             });
             //builder.OwnsOne(
             //            p => p.Documentation, a =>
             //            {

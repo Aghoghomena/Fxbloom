@@ -4,14 +4,16 @@ using FXBLOOM.DataLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FXBLOOM.DataLayer.Migrations
 {
     [DbContext(typeof(FXBloomContext))]
-    partial class FXBloomContextModelSnapshot : ModelSnapshot
+    [Migration("20210607192116_Subscriptionv2")]
+    partial class Subscriptionv2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,6 +150,30 @@ namespace FXBLOOM.DataLayer.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("FXBLOOM.DomainLayer.CustomerAggregate.Document", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IDNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
+
+                    b.ToTable("Document");
+                });
+
             modelBuilder.Entity("FXBLOOM.DomainLayer.CustomerAggregate.Listing", b =>
                 {
                     b.Property<Guid>("Id")
@@ -259,8 +285,10 @@ namespace FXBLOOM.DataLayer.Migrations
 
                     b.OwnsOne("FXBLOOM.DomainLayer.CustomerAggregate.Account", "Account", b1 =>
                         {
-                            b1.Property<Guid>("CustomerId")
-                                .HasColumnType("uniqueidentifier");
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .UseIdentityColumn();
 
                             b1.Property<string>("AccountNumber")
                                 .IsRequired()
@@ -272,33 +300,15 @@ namespace FXBLOOM.DataLayer.Migrations
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)");
 
-                            b1.HasKey("CustomerId");
-
-                            b1.ToTable("Accounts");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CustomerId");
-                        });
-
-                    b.OwnsOne("FXBLOOM.DomainLayer.CustomerAggregate.Document", "Documentation", b1 =>
-                        {
                             b1.Property<Guid>("CustomerId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<int>("DocumentType")
-                                .HasColumnType("int");
+                            b1.HasKey("Id");
 
-                            b1.Property<string>("IDNumber")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
+                            b1.HasIndex("CustomerId")
+                                .IsUnique();
 
-                            b1.Property<string>("Img")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("CustomerId");
-
-                            b1.ToTable("Customers");
+                            b1.ToTable("Accounts");
 
                             b1.WithOwner()
                                 .HasForeignKey("CustomerId");
@@ -308,9 +318,16 @@ namespace FXBLOOM.DataLayer.Migrations
 
                     b.Navigation("Country");
 
-                    b.Navigation("Documentation");
-
                     b.Navigation("State");
+                });
+
+            modelBuilder.Entity("FXBLOOM.DomainLayer.CustomerAggregate.Document", b =>
+                {
+                    b.HasOne("FXBLOOM.DomainLayer.CustomerAggregate.Customer", null)
+                        .WithOne("Documentation")
+                        .HasForeignKey("FXBLOOM.DomainLayer.CustomerAggregate.Document", "CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FXBLOOM.DomainLayer.CustomerAggregate.Listing", b =>
@@ -352,6 +369,8 @@ namespace FXBLOOM.DataLayer.Migrations
 
             modelBuilder.Entity("FXBLOOM.DomainLayer.CustomerAggregate.Customer", b =>
                 {
+                    b.Navigation("Documentation");
+
                     b.Navigation("Listings");
                 });
 

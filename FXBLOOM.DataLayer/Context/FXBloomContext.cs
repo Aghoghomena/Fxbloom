@@ -1,5 +1,6 @@
 ﻿using FXBLOOM.DataLayer.Configuration;
 using FXBLOOM.DomainLayer.CustomerAggregate;
+using FXBLOOM.DomainLayer.SubsriptionAggregate;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,9 @@ namespace FXBLOOM.DataLayer.Context
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Account> Accounts { get; set; }
+
+        public DbSet<Subscription> Subscriptions { get; set; }
+
 
         //public DbSet<Currency> Currencies { get; set; }
 

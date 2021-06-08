@@ -77,7 +77,6 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             return listing;
         }
 
-      
 
         public IReadOnlyCollection<Listing> GetListings()
         {

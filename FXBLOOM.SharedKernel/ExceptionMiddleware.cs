@@ -19,6 +19,7 @@ namespace FXBLOOM.SharedKernel
             _next = next;
         }
 
+        //try catch thats supposed to run at every http request
         public async Task InvokeAsync(HttpContext httpContext)
         {
             try
