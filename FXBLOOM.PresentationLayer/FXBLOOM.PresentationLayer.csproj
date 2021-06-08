@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject>FXBLOOM.PresentationLayer.Program</StartupObject>
+    <UserSecretsId>8fa24b7a-664c-466b-a973-68e646103772</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
