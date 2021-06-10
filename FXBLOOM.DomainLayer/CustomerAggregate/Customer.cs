@@ -46,7 +46,7 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
         {
             _listings = new List<Listing>();
         }
-        public static Customer CreateCustomer(CustomerDTO customerDto)
+        public static Customer CreateCustomer(DocumentDTO customerDto)
         {
             Customer customer = new Customer();
             customer.FirstName = customerDto.FirstName;

@@ -17,5 +17,8 @@ namespace FXBLOOM.DataLayer.Interface
         Task<PagedQueryResult<Customer>> GetConfirmedCustomers(PagedQueryRequest request);
         Task<PagedQueryResult<Customer>> GetRejectedCustomers(PagedQueryRequest request);
         Task<PagedQueryResult<Customer>> GetCustomersAwaitingConfirmation(PagedQueryRequest request);
+
+        Task<bool> AddDocumentation(Document document);
+        
     }
 }

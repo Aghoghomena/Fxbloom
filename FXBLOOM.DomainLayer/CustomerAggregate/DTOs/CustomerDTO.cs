@@ -4,11 +4,10 @@ using System.Text;
 
 namespace FXBLOOM.DomainLayer.CustomerAggregate.DTOs
 {
-    public class CustomerDTO
+    public class DocumentDTO
     {
         public string FirstName { get;  set; }
         public string LastName { get; set; }
-        public DocumentDto Document { get; set; }
 
         public string Address { get; set; }
 

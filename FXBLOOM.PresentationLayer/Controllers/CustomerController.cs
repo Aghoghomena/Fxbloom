@@ -1,4 +1,5 @@
 ﻿using FXBLOOM.DataLayer.Interface;
+using FXBLOOM.DomainLayer;
 using FXBLOOM.DomainLayer.CustomerAggregate;
 using FXBLOOM.DomainLayer.CustomerAggregate.DTOs;
 using FXBLOOM.SharedKernel;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FXBLOOM.PresentationLayer.Controllers
@@ -19,10 +21,12 @@ namespace FXBLOOM.PresentationLayer.Controllers
     {
         private ILog _logger;
         private ICustomerRepository _customerRepository;
-        public CustomerController(ILog logger, ICustomerRepository customerRepository)
+        private IValidation _validation;
+        public CustomerController(ILog logger, ICustomerRepository customerRepository, IValidation validation)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _customerRepository = customerRepository;
+            _validation = validation;
         }
 
 
@@ -39,8 +43,14 @@ namespace FXBLOOM.PresentationLayer.Controllers
 
         [HttpPost]
         [Produces(typeof(ResponseWrapper<string>))]
-        public async Task<IActionResult>  CreateCustomer(CustomerDTO customerDTO)
+        public async Task<IActionResult>  CreateCustomer(DocumentDTO customerDTO)
         {
+            //validate the request
+            var check_data = _validation.ValidateCustomer(customerDTO);
+            if(check_data.status_code == 422)
+            {
+                return Error("Validation Error");
+            }
             var response =  await _customerRepository.AddCustomer(Customer.CreateCustomer(customerDTO));
             if(response == false)
             {
@@ -50,5 +60,27 @@ namespace FXBLOOM.PresentationLayer.Controllers
             
 
         }
+
+        [HttpPost]
+        [Produces(typeof(ResponseWrapper<string>))]
+        public async Task<IActionResult> CustomerDocumentation(DocumentDTO document)
+        {
+            //validate the request
+            var check_data = _validation.ValidateCustomer(customerDTO);
+            if (check_data.status_code == 422)
+            {
+                return Error("Validation Error");
+            }
+            var response = await _customerRepository.AddCustomer(Customer.CreateCustomer(customerDTO));
+            if (response == false)
+            {
+                return Error("OOPS Something went wrong with the code");
+            }
+            return Ok("Customer Created Sucessfully");
+
+
+        }
+
+
     }
 }

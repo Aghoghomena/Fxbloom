@@ -62,9 +62,22 @@ namespace FXBLOOM.DataLayer.Implementation
 
         public async Task<bool> AddCustomer(Customer customer)
         {
+            //validate 
+
             var res = await AddAsync(customer);
 
             return res;
         }
+
+
+        public async Task<bool> AddDocumentation(Document document)
+        {
+            //validate 
+            var existingcustomer = await GetAsync(e => e.Id == document.CustomerId, d => d.Documentation).ConfigureAwait(false);
+            //existingcustomer.Documentation = new 
+
+            return res;
+        }
+
     }
 }
