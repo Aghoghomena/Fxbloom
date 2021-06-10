@@ -16,9 +16,22 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
 
         public string Img { get; private set; }
 
+        //internal static Document CreateDocument(DocumentDto documentDto)
+        //{
+        //    return new Document();
+        //}
+
+    
+
         internal static Document CreateDocument(DocumentDto documentDto)
         {
-            return new Document();
+
+            Document dc = new Document();
+            dc.IDNumber = documentDto.IDNumber;
+            dc.DocumentType = documentDto.DocumentType;
+            dc.Img = documentDto.Img;
+
+            return dc;
         }
     }
 }

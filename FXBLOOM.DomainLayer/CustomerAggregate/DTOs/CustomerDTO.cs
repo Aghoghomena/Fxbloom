@@ -27,6 +27,7 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate.DTOs
 
         public string Img { get; set; }
 
+        public DocumentDto Document { get; set; }
 
     }
 }

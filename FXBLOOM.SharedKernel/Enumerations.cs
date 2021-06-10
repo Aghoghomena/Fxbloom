@@ -33,5 +33,11 @@ namespace FXBLOOM.SharedKernel
             REJECTED = 2,
             PENDING = 3
         }
+
+        public enum AccountType
+        {
+            FOREIGN,
+            DOMESTIC,
+        }
     }
 }

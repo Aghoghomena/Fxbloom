@@ -35,5 +35,30 @@ namespace FXBLOOM.DataLayer.Implementation
             return pr;
 
         }
+
+        public PrivateResponse ValidateLogin(string Username, string Password)
+        {
+
+            string response = "";
+            StringBuilder sb = new StringBuilder();
+            int counterror = 0;
+            PrivateResponse pr = new PrivateResponse();
+
+            if (Username == "") { sb.Append("Username cannot be empty"); counterror++; };
+            if (Password == "") { sb.Append("Password cannnot be empty"); counterror++; };
+
+            if (counterror == 0)
+            {
+                pr.status_code = 200;
+
+            }
+            else
+            {
+                pr.status_code = 422;
+                pr.message = sb.ToString();
+            }
+            return pr;
+
+        }
     }
 }

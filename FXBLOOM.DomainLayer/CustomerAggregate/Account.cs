@@ -20,5 +20,14 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
 
             return account;
         }
+
+        internal static Account CreateAccount(string number, string bankName)
+        {
+            Account account = new Account();
+            account.AccountNumber = number;
+            account.BankName = bankName;
+
+            return account;
+        }
     }
 }

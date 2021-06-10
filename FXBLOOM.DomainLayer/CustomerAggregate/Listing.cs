@@ -63,6 +63,11 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             return response;
         }
 
+        public static Listing CreateListing(ListingDto listingDto)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SetStatus(ListingStatus listingStatus)
         {
             Status = listingStatus;

@@ -10,5 +10,7 @@ namespace FXBLOOM.DataLayer.Interface
     {
         public PrivateResponse ValidateCustomer(DocumentDTO customerDTO);
 
+        public PrivateResponse ValidateLogin(String Username, string Password);
+
     }
 }

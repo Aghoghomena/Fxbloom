@@ -70,14 +70,54 @@ namespace FXBLOOM.DataLayer.Implementation
         }
 
 
-        public async Task<bool> AddDocumentation(Document document)
+        public async Task<bool> AddAccount(AccountDTO accountDTO)
         {
-            //validate 
-            var existingcustomer = await GetAsync(e => e.Id == document.CustomerId, d => d.Documentation).ConfigureAwait(false);
-            //existingcustomer.Documentation = new 
+            var existingcustomer = await GetAsync(e => e.Id == accountDTO.CustomerId).ConfigureAwait(false);
+            if (accountDTO.AccountType == 0) {
+                existingcustomer.AddForeignAccount(accountDTO);
+                var res = await UpdateAsync(existingcustomer);
+
+                return res;
+            }
+            else
+            {
+                existingcustomer.AddForeignAccount(accountDTO);
+                var res = await UpdateAsync(existingcustomer);
+
+                return res;
+            }
+
+        }
+
+   
+        public async Task<bool> UpdateStatus(CustomerStatusDto customerStatusDto)
+        {
+            var existingcustomer = await GetAsync(e => e.Id == customerStatusDto.CustomerId).ConfigureAwait(false);
+            
+                existingcustomer.UpdateStatus(customerStatusDto);
+                var res = await UpdateAsync(existingcustomer);
+
+                return res;
+           
+
+        }
+
+        
+        public async Task<Customer> CustomerLogin(String username, string password)
+        {
+            var customer = await GetAsync(e => e.Email == username && e.Password == password  ).ConfigureAwait(false);
+
+            return customer;
+        }
+
+        public async Task<bool> ChangePassword(PasswordDto passwordDto)
+        {
+            var existingcustomer = await GetAsync(e => e.Id == passwordDto.CustomerId).ConfigureAwait(false);
+
+            existingcustomer.ChangePassword(passwordDto);
+            var res = await UpdateAsync(existingcustomer);
 
             return res;
         }
-
     }
 }

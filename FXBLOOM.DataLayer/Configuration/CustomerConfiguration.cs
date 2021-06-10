@@ -19,7 +19,13 @@ namespace FXBLOOM.DataLayer.Configuration
             builder.Property(e => e.Img).HasMaxLength(500);
             builder.Property(e => e.PostalCode).HasMaxLength(100);
             builder.Property(e => e.Password).HasMaxLength(100);
-            builder.OwnsOne(e => e.Account, a =>
+            builder.OwnsOne(e => e.DomesticAcct, a =>
+            {
+                a.Property(d => d.AccountNumber).HasMaxLength(500).IsRequired();
+                a.Property(d => d.BankName).HasMaxLength(100).IsRequired();
+            });
+
+            builder.OwnsOne(e => e.ForeignAcct, a =>
             {
                 a.Property(d => d.AccountNumber).HasMaxLength(500).IsRequired();
                 a.Property(d => d.BankName).HasMaxLength(100).IsRequired();

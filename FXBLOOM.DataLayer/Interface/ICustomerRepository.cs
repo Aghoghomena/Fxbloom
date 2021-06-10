@@ -1,4 +1,5 @@
 ﻿using FXBLOOM.DomainLayer.CustomerAggregate;
+using FXBLOOM.DomainLayer.CustomerAggregate.DTOs;
 using FXBLOOM.SharedKernel.Query;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,13 @@ namespace FXBLOOM.DataLayer.Interface
         Task<PagedQueryResult<Customer>> GetRejectedCustomers(PagedQueryRequest request);
         Task<PagedQueryResult<Customer>> GetCustomersAwaitingConfirmation(PagedQueryRequest request);
 
-        Task<bool> AddDocumentation(Document document);
-        
+        Task<bool> AddAccount(AccountDTO account);
+
+        Task<bool> UpdateStatus(CustomerStatusDto customerStatusDto);
+
+
+        Task<bool> ChangePassword(PasswordDto passwordDto);
+
+        Task<Customer> CustomerLogin(string Email, string Password);
     }
 }

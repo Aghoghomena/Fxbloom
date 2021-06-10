@@ -5,12 +5,9 @@ using static FXBLOOM.SharedKernel.Enumerations;
 
 namespace FXBLOOM.DomainLayer.CustomerAggregate.DTOs
 {
-    public class DocumentDto
+    public class CustomerStatusDto
     {
-        
-        public string IDNumber { get; set; }
-        public DocumentType DocumentType { get; set; }
-        public string Img { get; set; }
-
+        public Guid CustomerId { get; set; }
+        public CustomerStatus CustomerStatus { get; set; }
     }
 }

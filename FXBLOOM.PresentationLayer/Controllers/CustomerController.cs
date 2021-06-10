@@ -45,41 +45,95 @@ namespace FXBLOOM.PresentationLayer.Controllers
         [Produces(typeof(ResponseWrapper<string>))]
         public async Task<IActionResult>  CreateCustomer(DocumentDTO customerDTO)
         {
-            //validate the request
-            var check_data = _validation.ValidateCustomer(customerDTO);
-            if(check_data.status_code == 422)
+            try
             {
-                return Error("Validation Error");
-            }
-            var response =  await _customerRepository.AddCustomer(Customer.CreateCustomer(customerDTO));
-            if(response == false)
-            {
-                return Error("OOPS Something went wrong with the code");
-            }
+                //validate the request
+                var check_data = _validation.ValidateCustomer(customerDTO);
+                if (check_data.status_code == 422)
+                {
+                    return Error("Validation Error");
+                }
+                //set documentation 
+
+                var response = await _customerRepository.AddCustomer(Customer.CreateCustomer(customerDTO));
+                if (response == false)
+                {
+                    return Error("OOPS Something went wrong with the code");
+                }
                 return Ok("Customer Created Sucessfully");
+            }
+            catch(Exception ex)
+            {
+                return Error(ex.Message);
+            }
+           
             
 
         }
 
-        [HttpPost]
+        [HttpPost("Status")]
         [Produces(typeof(ResponseWrapper<string>))]
-        public async Task<IActionResult> CustomerDocumentation(DocumentDTO document)
+        public async Task<IActionResult> CustomerStatus(CustomerStatusDto customerStatusDto)
         {
-            //validate the request
-            var check_data = _validation.ValidateCustomer(customerDTO);
-            if (check_data.status_code == 422)
+            try
             {
-                return Error("Validation Error");
+               
+
+                var response = await _customerRepository.UpdateStatus(customerStatusDto);
+                if (response == false)
+                {
+                    return Error("OOPS Something went wrong with the code");
+                }
+                return Ok("Customer Status Updated Sucessfully");
             }
-            var response = await _customerRepository.AddCustomer(Customer.CreateCustomer(customerDTO));
-            if (response == false)
+            catch (Exception ex)
             {
-                return Error("OOPS Something went wrong with the code");
+                return Error(ex.Message);
             }
-            return Ok("Customer Created Sucessfully");
-
-
         }
+
+        [HttpPost("Password")]
+        [Produces(typeof(ResponseWrapper<string>))]
+        public async Task<IActionResult> Password(PasswordDto passwordDto)
+        {
+            try
+            {
+
+
+                var response = await _customerRepository.ChangePassword(passwordDto);
+                if (response == false)
+                {
+                    return Error("OOPS Something went wrong with the code");
+                }
+                return Ok("Customer password changed Sucessfully");
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+        }
+
+
+
+        //[HttpPost]
+        //[Produces(typeof(ResponseWrapper<string>))]
+        //public async Task<IActionResult> CustomerLogin(string username, string password)
+        //{
+        //    //validate the request
+        //    var check_data = _validation.ValidateLogin(username, password);
+        //    if (check_data.status_code == 422)
+        //    {
+        //        return Error("Validation Error");
+        //    }
+        //    var response = await _customerRepository.CustomerLogin(username,password);
+        //    //if (response == false)
+        //    //{
+        //    //    return Error("OOPS Something went wrong with the code");
+        //    //}
+        //    return Ok(response);
+
+
+        //}
 
 
     }

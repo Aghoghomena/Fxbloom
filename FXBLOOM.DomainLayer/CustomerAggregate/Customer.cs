@@ -34,17 +34,22 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
 
         public string Address { get; private set; }
         public CustomerStatus CustomerStatus { get; private set; }
-        public Account Account { get; private set; }
+        public Account ForeignAcct{ get; private set; }
+
+        public Account DomesticAcct { get; private set; }
         public Document Documentation { get; private set; }
 
         public List<Listing> _listings;
         public IReadOnlyCollection<Listing> Listings => _listings;
         public DateTime DateCreated { get; private set; } = System.DateTime.Now;
-        public DateTime? DateConfirmed { get; set; }
+        public DateTime? DateConfirmed { get; private set; }
 
+        public int? ClosedBids { get; private set; } = 0;
         public Customer():base(Guid.NewGuid())
         {
             _listings = new List<Listing>();
+            //ForeignAcct = Account.CreateAccount("", "");
+            //DomesticAcct = Account.CreateAccount("", "");
         }
         public static Customer CreateCustomer(DocumentDTO customerDto)
         {
@@ -61,6 +66,7 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             customer.StateId = customerDto.StateId;
             customer.Img = customerDto.Img;
             customer.CustomerStatus = CustomerStatus.PENDING;
+            customer.Documentation = Document.CreateDocument(customerDto.Document);
 
             return customer;
         }
@@ -75,6 +81,26 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
         {
             var listing = _listings.SingleOrDefault(e => e.Id == listingId);
             return listing;
+        }
+
+        public void AddForeignAccount(AccountDTO accountDTO)
+        {
+            ForeignAcct = Account.CreateAccount(accountDTO.AccountNumber, accountDTO.BankName);
+        }
+
+        public void AddDomesticAccount(AccountDTO accountDTO)
+        {
+            DomesticAcct = Account.CreateAccount(accountDTO.AccountNumber, accountDTO.BankName);
+        }
+
+        public void UpdateStatus(CustomerStatusDto customerStatusDto)
+        {
+            CustomerStatus = customerStatusDto.CustomerStatus;
+        }
+
+        public void ChangePassword(PasswordDto passwordDto)
+        {
+            Password = passwordDto.Password;
         }
 
 

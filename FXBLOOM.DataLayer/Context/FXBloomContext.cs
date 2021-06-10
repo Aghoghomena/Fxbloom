@@ -16,9 +16,11 @@ namespace FXBLOOM.DataLayer.Context
         }
 
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Account> Accounts { get; set; }
+        //public DbSet<Account> Accounts { get; set; }
 
         public DbSet<Subscription> Subscriptions { get; set; }
+
+        public DbSet<Listing> Listing { get; set; }
 
 
         //public DbSet<Currency> Currencies { get; set; }
