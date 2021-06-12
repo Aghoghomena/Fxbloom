@@ -31,6 +31,7 @@ namespace FXBLOOM.DataLayer.Configuration
             var bidNavigation = builder.Metadata.FindNavigation(nameof(Listing.Bids));
             bidNavigation.SetField("_bids");
             bidNavigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+
         }
     }
 }

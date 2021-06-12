@@ -15,16 +15,16 @@ namespace FXBLOOM.PresentationLayer.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class ListingController : ControllerBase
+    public class ListingController : BaseController
     {
 
         private ILog _logger;
-        private ICustomerRepository _customerRepository;
+        private IListingRepository _listingRepository;
         private IValidation _validation;
-        public ListingController(ILog logger, ICustomerRepository customerRepository, IValidation validation)
+        public ListingController(ILog logger, IListingRepository listingRepository, IValidation validation)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _customerRepository = customerRepository;
+            _listingRepository = listingRepository;
             _validation = validation;
         }
 
@@ -32,23 +32,72 @@ namespace FXBLOOM.PresentationLayer.Controllers
         [Produces(typeof(ResponseWrapper<string>))]
         public async Task<IActionResult> AddListing(ListingDto listingDto)
         {
-            //try
-            //{
-            //    var response = await _customerRepository.AddCustomer(Listing.CreateListing(listingDto.CustomerId,listingDto));
-            //    if (response == false)
-            //    {
-            //        return Error("OOPS Something went wrong with the code");
-            //    }
-            //    return Ok("Customer Created Sucessfully");
-            //}
-            //catch (Exception ex)
-            //{
-            //    return Error(ex.Message);
-            //}
-
-            return Ok("Customer Created Sucessfully");
-
+            try
+            {
+                //validate the amount of completed bids to ensure customer enters their account number
+                var response = await _listingRepository.AddListing(Listing.CreateListing(listingDto));
+                if (response == false)
+                {
+                    return Error("OOPS Something went wrong with the code");
+                }
+                return Ok("Listing Created Sucessfully");
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
         }
+
+
+        [HttpGet]
+        [Produces(typeof(ResponseWrapper<string>))]
+        public IActionResult Get()
+        {
+            //return Ok("Hello World");
+
+            return Ok(_listingRepository.GetListings());
+        }
+
+        [HttpPatch]
+        [Produces(typeof(ResponseWrapper<string>))]
+        public async Task<IActionResult> UpdateList(EditListingDto editListingDto)
+        {
+            try
+            {
+                //can only update listings have bo bid
+                var response = await _listingRepository.EditListing(editListingDto);
+                if (response == false)
+                {
+                    return Error("OOPS Something went wrong with the code");
+                }
+                return Ok("Listing Edited Sucessfully");
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Produces(typeof(ResponseWrapper<string>))]
+        public async Task<IActionResult> deleteListing(Guid listingId)
+        {
+            try
+            {
+                //can only update listings have bo bid
+                var response = await _listingRepository.DeleteListing(listingId);
+                if (response == false)
+                {
+                    return Error("OOPS Something went wrong with the code");
+                }
+                return Ok("Listing Removed Sucessfully");
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+        }
+
 
     }
 }

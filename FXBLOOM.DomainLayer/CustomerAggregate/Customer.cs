@@ -95,7 +95,13 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
 
         public void UpdateStatus(CustomerStatusDto customerStatusDto)
         {
+            if (customerStatusDto.CustomerStatus == CustomerStatus.CONFIRMED){ DateConfirmed = System.DateTime.Now; }
             CustomerStatus = customerStatusDto.CustomerStatus;
+        }
+
+        public void UpdateCompleteBids(CustomerBidCountDto customerBidCount)
+        {
+            ClosedBids += 1;
         }
 
         public void ChangePassword(PasswordDto passwordDto)
@@ -107,6 +113,16 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
         public IReadOnlyCollection<Listing> GetListings()
         {
             return Listings;
+        }
+
+        private bool RequiresAccountNumber()
+        {
+            if (ClosedBids > 2 )
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

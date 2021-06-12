@@ -26,6 +26,9 @@ namespace FXBLOOM.DataLayer.Interface
 
         Task<bool> ChangePassword(PasswordDto passwordDto);
 
+
+        Task<bool> UpdateCompleteBidCount(CustomerBidCountDto customerBidCountDto);
+
         Task<Customer> CustomerLogin(string Email, string Password);
     }
 }

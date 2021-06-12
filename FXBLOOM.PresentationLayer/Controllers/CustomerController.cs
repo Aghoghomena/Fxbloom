@@ -41,6 +41,21 @@ namespace FXBLOOM.PresentationLayer.Controllers
             return Ok(_customerRepository.GetCustomers());
         }
 
+
+        [HttpGet]
+        [Route("{customerId}")]
+        [Produces(typeof(ResponseWrapper<string>))]
+        public IActionResult GetCustomer(Guid customerId)
+        {
+            var customer = _customerRepository.GetCustomer(customerId);
+
+            if (customer != null)
+            {
+                return Ok(customer);
+            }
+            return NotFound($"Customer with Id: {customerId} was not found");
+        }
+
         [HttpPost]
         [Produces(typeof(ResponseWrapper<string>))]
         public async Task<IActionResult>  CreateCustomer(DocumentDTO customerDTO)
@@ -77,7 +92,7 @@ namespace FXBLOOM.PresentationLayer.Controllers
         {
             try
             {
-               
+               // validate and authenticate to ensure only admin can change the the status of customer to confirmed
 
                 var response = await _customerRepository.UpdateStatus(customerStatusDto);
                 if (response == false)
@@ -112,6 +127,29 @@ namespace FXBLOOM.PresentationLayer.Controllers
                 return Error(ex.Message);
             }
         }
+
+
+        [HttpPost("CompleteBid")]
+        [Produces(typeof(ResponseWrapper<string>))]
+        public async Task<IActionResult> CompleteBid(CustomerBidCountDto customerBidCountDto)
+        {
+            try
+            {
+
+
+                var response = await _customerRepository.UpdateCompleteBidCount(customerBidCountDto);
+                if (response == false)
+                {
+                    return Error("OOPS Something went wrong with the code");
+                }
+                return Ok("Customer Completed Bids Updated Sucessfully");
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+        }
+
 
 
 

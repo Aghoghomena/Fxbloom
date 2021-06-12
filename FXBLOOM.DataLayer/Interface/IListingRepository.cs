@@ -11,5 +11,11 @@ namespace FXBLOOM.DataLayer.Interface
     {
 
         Task<bool> AddListing(Listing listing);
+
+        Task<List<Listing>> GetListings();
+
+        Task<bool> EditListing(EditListingDto editListingDto);
+
+        Task<bool> DeleteListing(Guid listingId);
     }
 }

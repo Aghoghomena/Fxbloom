@@ -119,5 +119,15 @@ namespace FXBLOOM.DataLayer.Implementation
 
             return res;
         }
+
+        public async Task<bool> UpdateCompleteBidCount(CustomerBidCountDto customerBidCountDto)
+        {
+            var existingcustomer = await GetAsync(e => e.Id == customerBidCountDto.CustomerId).ConfigureAwait(false);
+
+            existingcustomer.UpdateCompleteBids(customerBidCountDto);
+            var res = await UpdateAsync(existingcustomer);
+
+            return res;
+        }
     }
 }

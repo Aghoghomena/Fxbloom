@@ -14,6 +14,7 @@ namespace FXBLOOM.DataLayer
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<ISubscription, SubscriptionImplementation>();
             services.AddScoped<IValidation, ValidationRepository>();
+            services.AddScoped<IListingRepository, ListingRepository>();
             return services;
         }
     }

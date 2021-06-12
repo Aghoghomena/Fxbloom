@@ -1,4 +1,5 @@
-﻿using FXBLOOM.SharedKernel;
+﻿using FXBLOOM.DomainLayer.CustomerAggregate.DTOs;
+using FXBLOOM.SharedKernel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,11 +16,11 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
 
         public int Id { get; set; }
 
-        internal static Currency CreateCurrency(CurrencyType type, decimal amount)
+        internal static Currency CreateCurrency(CurrencyDto currencyDto)
         {
             Currency currency = new Currency();
-            currency.CurrencyType = type;
-            currency.Amount = amount;
+            currency.CurrencyType = currencyDto.CurrencyType;
+            currency.Amount = currencyDto.Amount;
 
             return currency;
         }

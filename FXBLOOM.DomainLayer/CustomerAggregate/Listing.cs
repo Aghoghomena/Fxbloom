@@ -18,6 +18,9 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
         public DateTime DateCreated { get; private set; }
         public DateTime DateFinalized { get; private set; }
         public ListingStatus Status { get; private  set; }
+
+        public Decimal MinExchangeAmount { get; private set; }
+        public Decimal ExchangeRate { get; private set; }
         public Guid CustomerId { get; private set; }
 
         public Listing() : base(Guid.NewGuid())
@@ -65,7 +68,16 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
 
         public static Listing CreateListing(ListingDto listingDto)
         {
-            throw new NotImplementedException();
+            Listing listing = new Listing();
+            listing.AmountAvailable = Currency.CreateCurrency(listingDto.AmountAvailable);
+            listing.AmountNeeded = Currency.CreateCurrency(listingDto.AmountNeeded);
+            listing.CustomerId = listingDto.CustomerId;
+            listing.DateCreated = System.DateTime.Now;
+            listing.Status = ListingStatus.OPEN;
+            listing.ExchangeRate = listingDto.ExchangeRate;
+            listing.MinExchangeAmount = listingDto.MinExchangeAmount;
+
+            return listing;
         }
 
         public void SetStatus(ListingStatus listingStatus)
@@ -83,9 +95,29 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             }
         }
 
+        public void EditListing(EditListingDto editListingDto)
+        {
+
+             AmountNeeded = Currency.CreateCurrency(editListingDto.AmountNeeded);
+            CustomerId = editListingDto.CustomerId;
+            ExchangeRate = editListingDto.ExchangeRate;
+            MinExchangeAmount = editListingDto.MinExchangeAmount;
+
+
+        }
         private bool HasReachedBiddingLimit()
         {
             if(Bids.Count < 2)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool HasActiveBidding()
+        {
+            if (Bids.Count == 0)
             {
                 return false;
             }
