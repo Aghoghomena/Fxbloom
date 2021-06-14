@@ -9,6 +9,8 @@ using FXBLOOM.SharedKernel;
 using FXBLOOM.SharedKernel.Query;
 using FXBLOOM.DomainLayer.CustomerAggregate.DTOs;
 using Microsoft.EntityFrameworkCore;
+using FXBLOOM.DomainLayer;
+using static FXBLOOM.SharedKernel.Enumerations;
 
 namespace FXBLOOM.DataLayer.Implementation
 {
@@ -20,17 +22,29 @@ namespace FXBLOOM.DataLayer.Implementation
             _context = context;
         }
 
-        //public async Task<IEnumerable<Customer>> GetCustomers()
-        //{
-        //    var customers = await GetAllAsync().ConfigureAwait(false);
 
-        //    return customers;
-        //}
+        public async Task<ResponseModel<AuthenticationResponseDTO>> AuthenticateCustomer(string username, string password)
+        {
+            ResponseModel<AuthenticationResponseDTO> responseModel = new ResponseModel<AuthenticationResponseDTO>();
+            var customer = await GetAsync(e => e.Email == username).ConfigureAwait(false);
+            if(customer is null) { 
+                return new ResponseModel<AuthenticationResponseDTO> { Message = "Username or Password is not correct", Status = false }; 
+            }
+
+            var authRes = customer.AuthenticateCustomer(password);
+            if(authRes.IsAuthenticated is false) { 
+                return new ResponseModel<AuthenticationResponseDTO> { Message = "Username or Password is not correct", Status = false };
+            }
+            
+            responseModel.Data = authRes;
+            responseModel.Status = true;
+            return responseModel;
+        }
+
+
         public Task<List<Customer>> GetCustomers()
         {
             var customers =  GetAll(e => e.Country, f => f.State).ToListAsync();
-
-            //var customers2 = await _context.Customers.Include(a => a.Country.).ToListAsync();
             return customers;
 
         }
@@ -62,7 +76,6 @@ namespace FXBLOOM.DataLayer.Implementation
 
         public async Task<bool> AddCustomer(Customer customer)
         {
-            //validate 
 
             var res = await AddAsync(customer);
 
@@ -70,44 +83,38 @@ namespace FXBLOOM.DataLayer.Implementation
         }
 
 
-        public async Task<bool> AddAccount(AccountDTO accountDTO)
+        public async Task<ResponseModel> AddAccount(Guid customerID, AccountDTO accountDTO)
         {
-            var existingcustomer = await GetAsync(e => e.Id == accountDTO.CustomerId).ConfigureAwait(false);
-            if (accountDTO.AccountType == 0) {
-                existingcustomer.AddForeignAccount(accountDTO);
-                var res = await UpdateAsync(existingcustomer);
+            var existingcustomer = await GetAsync(e => e.Id == customerID).ConfigureAwait(false);
+            if(existingcustomer is null) { return new ResponseModel { Message = "Oops!! Could not retrieve your profile", Status = false }; }
 
-                return res;
-            }
-            else
+            if (accountDTO.AccountType.Equals(AccountType.FOREIGN))
             {
                 existingcustomer.AddForeignAccount(accountDTO);
-                var res = await UpdateAsync(existingcustomer);
-
-                return res;
+            }else if (accountDTO.AccountType.Equals(AccountType.DOMESTIC))
+            {
+                existingcustomer.AddDomesticAccount(accountDTO);
             }
 
+
+            var res = await UpdateAsync(existingcustomer);
+            return new ResponseModel {
+                Message = res?"Account was added successfully":"Oops!! something went wrong while trying to complete the process",
+                Status = res
+            };
         }
 
-   
-        public async Task<bool> UpdateStatus(CustomerStatusDto customerStatusDto)
+
+        public async Task<ResponseModel> UpdateStatus(Guid customerID, CustomerStatus status)
         {
-            var existingcustomer = await GetAsync(e => e.Id == customerStatusDto.CustomerId).ConfigureAwait(false);
-            
-                existingcustomer.UpdateStatus(customerStatusDto);
-                var res = await UpdateAsync(existingcustomer);
 
-                return res;
-           
+            var existingcustomer = await GetAsync(e => e.Id == customerID).ConfigureAwait(false);
+            if(existingcustomer is null) { return new ResponseModel { Status = false, Message = "Oops!! Could not retrieve your profile" }; }
 
-        }
+            existingcustomer.UpdateStatus(status);
+            var res = await UpdateAsync(existingcustomer);
 
-        
-        public async Task<Customer> CustomerLogin(String username, string password)
-        {
-            var customer = await GetAsync(e => e.Email == username && e.Password == password  ).ConfigureAwait(false);
-
-            return customer;
+            return new ResponseModel { Message = res ? $"{existingcustomer.FirstName.ToSentenceCase()}'s status was updated successfully" : "Oops!! something went wrong", Status = res };
         }
 
         public async Task<bool> ChangePassword(PasswordDto passwordDto)

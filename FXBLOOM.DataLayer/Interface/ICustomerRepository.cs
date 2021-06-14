@@ -1,10 +1,13 @@
-﻿using FXBLOOM.DomainLayer.CustomerAggregate;
+﻿using FXBLOOM.DomainLayer;
+using FXBLOOM.DomainLayer.CustomerAggregate;
 using FXBLOOM.DomainLayer.CustomerAggregate.DTOs;
+using FXBLOOM.SharedKernel;
 using FXBLOOM.SharedKernel.Query;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using static FXBLOOM.SharedKernel.Enumerations;
 
 namespace FXBLOOM.DataLayer.Interface
 {
@@ -19,9 +22,9 @@ namespace FXBLOOM.DataLayer.Interface
         Task<PagedQueryResult<Customer>> GetRejectedCustomers(PagedQueryRequest request);
         Task<PagedQueryResult<Customer>> GetCustomersAwaitingConfirmation(PagedQueryRequest request);
 
-        Task<bool> AddAccount(AccountDTO account);
+        Task<ResponseModel> AddAccount(Guid customerID, AccountDTO account);
 
-        Task<bool> UpdateStatus(CustomerStatusDto customerStatusDto);
+        Task<ResponseModel> UpdateStatus(Guid customerID, CustomerStatus status);
 
 
         Task<bool> ChangePassword(PasswordDto passwordDto);
@@ -29,6 +32,6 @@ namespace FXBLOOM.DataLayer.Interface
 
         Task<bool> UpdateCompleteBidCount(CustomerBidCountDto customerBidCountDto);
 
-        Task<Customer> CustomerLogin(string Email, string Password);
+        Task<ResponseModel<AuthenticationResponseDTO>> AuthenticateCustomer(string username, string password);
     }
 }

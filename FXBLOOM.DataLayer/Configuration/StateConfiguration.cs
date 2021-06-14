@@ -7,15 +7,15 @@ using System.Text;
 
 namespace FXBLOOM.DataLayer.Configuration
 {
-    class StateConfiguration: IEntityTypeConfiguration<State>
+    class StateConfiguration : IEntityTypeConfiguration<State>
     {
 
-            public void Configure(EntityTypeBuilder<State> builder)
-    {
-        builder.HasKey(e => e.StateId);
-        builder.Property(e => e.StateId).ValueGeneratedOnAdd();
-        builder.Property(e => e.Statename).HasMaxLength(500).IsRequired();
+        public void Configure(EntityTypeBuilder<State> builder)
+        {
+            builder.HasKey(e => e.StateId);
+            builder.Property(e => e.StateId).ValueGeneratedOnAdd();
+            builder.Property(e => e.Statename).HasMaxLength(100).IsRequired();
 
+        }
     }
-}
 }

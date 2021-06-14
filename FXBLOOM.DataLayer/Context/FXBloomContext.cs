@@ -16,16 +16,11 @@ namespace FXBLOOM.DataLayer.Context
         }
 
         public DbSet<Customer> Customers { get; set; }
-        //public DbSet<Account> Accounts { get; set; }
-
         public DbSet<Subscription> Subscriptions { get; set; }
 
         public DbSet<Listing> Listing { get; set; }
 
-
-        //public DbSet<Currency> Currencies { get; set; }
-
-        //public DbSet<Country> Countries { get; set; }
+        public DbSet<Country> Countries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,14 +28,12 @@ namespace FXBLOOM.DataLayer.Context
             //move all this to their configuration folders
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new StateConfiguration());
+            modelBuilder.ApplyConfiguration(new ListingConfiguration());
+            modelBuilder.ApplyConfiguration(new CountryConfiguration());
+            modelBuilder.ApplyConfiguration(new BidConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer()
-        //}
 
     }
 }

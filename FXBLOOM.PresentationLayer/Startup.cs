@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using SecurityCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,8 @@ namespace FXBLOOM.PresentationLayer
         {
             services.AddSingleton<ILog, LogNLog>();
             services.AddControllers();
-           
+            services.RegisterAuthServices();
+
             var connStr = Configuration.GetConnectionString("FXBLOOMConnectionString");
 
             services.AddDbContext<FXBloomContext>(options =>
@@ -69,8 +71,6 @@ namespace FXBLOOM.PresentationLayer
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.JsonSerializerOptions.IgnoreNullValues = false;
-
-                //options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve
             });
 
             services.InfrastructureLayerServices();
@@ -91,21 +91,21 @@ namespace FXBLOOM.PresentationLayer
                     Version = "Version 1"
                 });
 
-                //c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                //{
-                //    In = ParameterLocation.Header,
-                //    Description = "Enter the word 'Bearer' into field",
-                //    Name = "Authorization",
-                //    Type = SecuritySchemeType.ApiKey
-                //});
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Enter the word 'Bearer' into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
 
-                //c.AddSecurityDefinition("Token", new OpenApiSecurityScheme
-                //{
-                //    In = ParameterLocation.Header,
-                //    Description = "Enter token generated after signing in",
-                //    Name = "fxbloom-token",
-                //    Type = SecuritySchemeType.ApiKey
-                //});
+                c.AddSecurityDefinition("Token", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Enter token generated after signing in",
+                    Name = "token",
+                    Type = SecuritySchemeType.ApiKey
+                });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                     {
@@ -140,18 +140,8 @@ namespace FXBLOOM.PresentationLayer
                     });
             });
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
-                                  builder =>
-                                  {
-                                      //builder.WithOrigins("")
-                                      builder.AllowAnyOrigin()
-                                                            .AllowAnyHeader()
-                                                            .AllowAnyMethod();
-                                  });
-            });
 
+            services.AddOptions();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -160,8 +150,6 @@ namespace FXBLOOM.PresentationLayer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseMiddleware<ExceptionMiddleware>();
-                
             }
             else
             {
@@ -169,11 +157,13 @@ namespace FXBLOOM.PresentationLayer
             }
 
             app.UseHttpsRedirection();
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
+            app.UseAuthentication();
             app.UseRouting();
-
-            app.UseCors(MyAllowSpecificOrigins);
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -186,7 +176,7 @@ namespace FXBLOOM.PresentationLayer
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("../swagger/v1/swagger.json", "FXBLOOM API"); //../swagger
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", "FXBLOOM API");
             });
         }
     }

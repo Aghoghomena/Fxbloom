@@ -31,4 +31,10 @@
     <ProjectReference Include="..\FXBLOOM.InfrastructureLayer\FXBLOOM.InfrastructureLayer.csproj" />
     <ProjectReference Include="..\FXBLOOM.SharedKernel\FXBLOOM.SharedKernel.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="SecurityCore">
+      <HintPath>SecurityCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

@@ -3,8 +3,10 @@ using FXBLOOM.DomainLayer.CustomerAggregate;
 using FXBLOOM.DomainLayer.CustomerAggregate.DTOs;
 using FXBLOOM.SharedKernel;
 using FXBLOOM.SharedKernel.Logging.NlogFile;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SecurityCore.Token;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,41 +17,33 @@ namespace FXBLOOM.PresentationLayer.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AccountController : BaseController
     {
         private ILog _logger;
         private ICustomerRepository _customerRepository;
-        private IValidation _validation;
-        public AccountController(ILog logger, ICustomerRepository customerRepository, IValidation validation)
+        public AccountController(ILog logger, ICustomerRepository customerRepository)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _customerRepository = customerRepository;
-            _validation = validation;
         }
 
 
 
         [HttpPost]
         [Produces(typeof(ResponseWrapper<string>))]
-        public async Task<IActionResult> AddAccount(AccountDTO accountDTO)
+        public async Task<IActionResult> AddAccount([FromBody]AccountDTO accountDTO)
         {
-            try
+            var profileIdClaim = User.Claims.FirstOrDefault(c => c.Type == FXBloomsClaimTypes.CustomerId);
+            var customerId = Guid.Parse(profileIdClaim.Value);
+
+            var response = await _customerRepository.AddAccount(customerId, accountDTO);
+            if (response.Status is false)
             {
-                //validate the request
-                var response = await _customerRepository.AddAccount(accountDTO);
-                if (response == false)
-                {
-                    return Error("OOPS Something went wrong with the code");
-                }
-                return Ok("Customer Account Created Sucessfully");
-            }
-            catch (Exception ex)
-            {
-                return Error(ex.Message);
+                return Error(response.Message);
             }
 
-
-
+            return Ok(response.Message);
         }
 
     }

@@ -14,8 +14,6 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
 
         public decimal Amount { get; private set; }
 
-        public int Id { get; set; }
-
         internal static Currency CreateCurrency(CurrencyDto currencyDto)
         {
             Currency currency = new Currency();

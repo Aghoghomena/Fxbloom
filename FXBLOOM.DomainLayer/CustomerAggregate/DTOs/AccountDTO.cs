@@ -10,8 +10,6 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate.DTOs
         public string AccountNumber { get; set; }
         public string BankName { get; set; }
 
-        public Guid CustomerId { get; set; }
-
         public AccountType AccountType { get; set; }
     }
 }

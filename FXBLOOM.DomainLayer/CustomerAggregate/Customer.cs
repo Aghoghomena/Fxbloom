@@ -1,8 +1,10 @@
 ﻿using FXBLOOM.DomainLayer.CustomerAggregate.DTOs;
 using FXBLOOM.SharedKernel;
+using SecurityCore.Token;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using static FXBLOOM.SharedKernel.Enumerations;
 
@@ -43,15 +45,15 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
         public IReadOnlyCollection<Listing> Listings => _listings;
         public DateTime DateCreated { get; private set; } = System.DateTime.Now;
         public DateTime? DateConfirmed { get; private set; }
+        public DateTime LastDateLoggedIn { get; private set; }
 
         public int? ClosedBids { get; private set; } = 0;
         public Customer():base(Guid.NewGuid())
         {
             _listings = new List<Listing>();
-            //ForeignAcct = Account.CreateAccount("", "");
-            //DomesticAcct = Account.CreateAccount("", "");
         }
-        public static Customer CreateCustomer(DocumentDTO customerDto)
+
+        public static Customer CreateCustomer(CustomerCreationRequest customerDto)
         {
             Customer customer = new Customer();
             customer.FirstName = customerDto.FirstName;
@@ -61,7 +63,7 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             customer.PostalCode = customerDto.PostalCode;
             customer.Address = customerDto.Address;
             customer.Email = customerDto.Email;
-            customer.Password = customerDto.Password;
+            customer.Password = customerDto.Password.HashPassword();
             customer.CountryId = customerDto.CountryId;
             customer.StateId = customerDto.StateId;
             customer.Img = customerDto.Img;
@@ -93,10 +95,10 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             DomesticAcct = Account.CreateAccount(accountDTO.AccountNumber, accountDTO.BankName);
         }
 
-        public void UpdateStatus(CustomerStatusDto customerStatusDto)
+        public void UpdateStatus(CustomerStatus status)
         {
-            if (customerStatusDto.CustomerStatus == CustomerStatus.CONFIRMED){ DateConfirmed = System.DateTime.Now; }
-            CustomerStatus = customerStatusDto.CustomerStatus;
+            if (status.Equals(CustomerStatus.CONFIRMED)){ DateConfirmed = System.DateTime.Now; }
+            CustomerStatus = status;
         }
 
         public void UpdateCompleteBids(CustomerBidCountDto customerBidCount)
@@ -106,7 +108,7 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
 
         public void ChangePassword(PasswordDto passwordDto)
         {
-            Password = passwordDto.Password;
+            Password = passwordDto.Password.HashPassword();
         }
 
 
@@ -123,6 +125,44 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             }
 
             return false;
+        }
+
+
+        public AuthenticationResponseDTO AuthenticateCustomer(string password)
+        {
+            AuthenticationResponseDTO response;
+            var hashedPassword = password.HashPassword();
+            if (string.Equals(hashedPassword, Password, StringComparison.OrdinalIgnoreCase))
+            {
+                LastDateLoggedIn = DateTime.Now;
+
+                response = AuthenticationResponseDTO.GetAuthenticationResponse(token: GenerateSecurityToken(), isAuthenticated: true, firstName: FirstName,lastName: LastName);
+
+                return response;
+            }
+
+            response = AuthenticationResponseDTO.GetAuthenticationResponse(isAuthenticated: false);
+
+            return response;
+        }
+
+        public string GETJWT()
+        {
+            return GenerateSecurityToken();
+        }
+
+        private string GenerateSecurityToken()
+        {
+            var claimsIdentity = new ClaimsIdentity(new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, Email.Trim()),
+                new Claim(ClaimTypes.Name, FirstName.ToSentenceCase()),
+                new Claim(ClaimTypes.Surname, LastName.ToSentenceCase()),
+                new Claim(FXBloomsClaimTypes.CustomerId, Id.ToString()),
+                new Claim(ClaimTypes.Role, "Customer")
+            });
+
+            return TokenUtils.GenerateToken(claimsIdentity);
         }
     }
 }
