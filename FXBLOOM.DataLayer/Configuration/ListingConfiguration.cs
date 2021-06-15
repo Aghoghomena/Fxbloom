@@ -13,14 +13,12 @@ namespace FXBLOOM.DataLayer.Configuration
         {
             builder.OwnsOne(e => e.AmountAvailable, d =>
             {
-                d.Property(a => a.Amount).IsRequired();
                 d.Property(a => a.CurrencyType).IsRequired();
                 d.Property(e => e.Amount).HasColumnType("decimal(18,4)").IsRequired();
             });
 
             builder.OwnsOne(e => e.AmountNeeded, d =>
             {
-                d.Property(a => a.Amount).IsRequired();
                 d.Property(e => e.Amount).HasColumnType("decimal(18,4)").IsRequired();
                 d.Property(a => a.CurrencyType).IsRequired();
             });

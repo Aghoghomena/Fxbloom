@@ -9,14 +9,10 @@ namespace FXBLOOM.DataLayer.Configuration
 
         public void Configure(EntityTypeBuilder<Document> builder)
         {
-        //    builder.Property(s => s.DocumentType).IsRequired();
-        //    builder.Property(s => s.IDNumber).HasMaxLength(50).IsRequired();
-        //    builder.HasKey(s => s.Id);
-        //    builder.Property(s => s.Id).ValueGeneratedOnAdd();
-        //    //builder.HasForeignKey("CustomerId");
-           
-
+            builder.Property(s => s.DocumentType).IsRequired();
+            builder.Property(s => s.IDNumber).HasMaxLength(50).IsRequired();
+            builder.Property(s => s.Img).IsRequired();
         }
-    
+
     }
 }

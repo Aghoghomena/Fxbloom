@@ -7,13 +7,18 @@ using System.Text;
 
 namespace FXBLOOM.DataLayer.Configuration
 {
-    class BidConfiguration: IEntityTypeConfiguration<Bid>
+    class BidConfiguration : IEntityTypeConfiguration<Bid>
     {
         public void Configure(EntityTypeBuilder<Bid> builder)
-    {
-        builder.HasKey(e => e.Id);
-        builder.Property(e => e.Amount).HasColumnType("decimal(18,4)").IsRequired();
+        {
+            builder.HasKey(e => e.Id);
+
+            builder.OwnsOne(e => e.Amount, a => 
+            {
+                a.Property(d => d.Amount).HasColumnType("decimal(18,4)").IsRequired();
+                a.Property(d => d.CurrencyType).IsRequired();
+            });
 
         }
-}
+    }
 }

@@ -38,30 +38,15 @@ namespace FXBLOOM.DataLayer.Configuration
                  f.Property(s => s.IDNumber).HasMaxLength(50).IsRequired();
 
              });
-            //builder.OwnsOne(
-            //            p => p.Documentation, a =>
-            //            {
-            //                a.WithOwner().HasForeignKey("CustomerId");
-            //                a.Property<int>("Id");
-            //                a.HasKey("Id");
-            //            });
 
             builder.HasOne(d => d.Country)
                      .WithMany(p => p.Customers)
                      .HasForeignKey(d => d.CountryId)
                      .HasConstraintName("CustomerCountry").IsRequired(false);
 
-            //builder.HasOne(d => d.State)
-            //.WithMany(p => p.Customers)
-            //.HasForeignKey(d => d.StateId)
-            //.HasConstraintName("StateCountry").IsRequired(false);
-
             var listingNavigation = builder.Metadata.FindNavigation(nameof(Customer.Listings));
             listingNavigation.SetField("_listings");
             listingNavigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-            //var custNavigation = builder.Metadata.FindNavigation(nameof(Customer.State));
-            //custNavigation.SetField("State");
-            //custNavigation.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

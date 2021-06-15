@@ -3,6 +3,7 @@ using FXBLOOM.DomainLayer.CustomerAggregate;
 using FXBLOOM.DomainLayer.CustomerAggregate.DTOs;
 using FXBLOOM.SharedKernel;
 using FXBLOOM.SharedKernel.Logging.NlogFile;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,17 +16,16 @@ namespace FXBLOOM.PresentationLayer.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ListingController : BaseController
     {
 
         private ILog _logger;
         private IListingRepository _listingRepository;
-        private IValidation _validation;
-        public ListingController(ILog logger, IListingRepository listingRepository, IValidation validation)
+        public ListingController(ILog logger, IListingRepository listingRepository)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _listingRepository = listingRepository;
-            _validation = validation;
         }
 
         [HttpPost]
