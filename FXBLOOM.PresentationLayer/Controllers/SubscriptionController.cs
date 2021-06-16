@@ -1,6 +1,7 @@
 ﻿using FXBLOOM.DataLayer.Interface;
 using FXBLOOM.DomainLayer.SubsriptionAggregate;
 using FXBLOOM.SharedKernel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +12,10 @@ using System.Threading.Tasks;
 
 namespace FXBLOOM.PresentationLayer.Controllers
 {
-
+    [Produces("application/json")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
+    [AllowAnonymous]
     public class SubscriptionController : BaseController
     {
 
@@ -25,15 +28,14 @@ namespace FXBLOOM.PresentationLayer.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]")]
         [Produces(typeof(ResponseWrapper<List<Subscription>>))]
-        public IActionResult getEmployees()
+        [Authorize]
+        public IActionResult GetSubscribers()
         {
             return Ok(_subscription.GetSubscriptions());
         }
 
         [HttpPost]
-        [Route("api/[controller]")]
         [Produces(typeof(ResponseWrapper<string>))]
         public IActionResult CreateSubscription(Subscription sub)
         {

@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace FXBLOOM.PresentationLayer.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
     public class ListingController : BaseController
