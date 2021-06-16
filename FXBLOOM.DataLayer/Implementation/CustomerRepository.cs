@@ -150,24 +150,23 @@ namespace FXBLOOM.DataLayer.Implementation
             return new ResponseModel { Message = res ? $"{existingcustomer.FirstName.ToSentenceCase()}'s status was updated successfully" : "Oops!! something went wrong", Status = res };
         }
 
-        public async Task<bool> ChangePassword(PasswordDto passwordDto)
+        public async Task<ResponseModel> ChangePassword(PasswordDto passwordDto)
         {
             var existingcustomer = await GetAsync(e => e.Id == passwordDto.CustomerId).ConfigureAwait(false);
-
+            if(existingcustomer is null) { return new ResponseModel { Status = false, Message = "Oops!! Could not retrieve your profile" }; }
             existingcustomer.ChangePassword(passwordDto);
             var res = await UpdateAsync(existingcustomer);
 
-            return res;
+            return new ResponseModel { Message = res ? $"Hi {existingcustomer.FirstName.ToSentenceCase()}, your password was changed successfully" : "Oops!! something went wrong", Status = res };
         }
 
-        public async Task<bool> UpdateCompleteBidCount(CustomerBidCountDto customerBidCountDto)
+        public async Task<ResponseModel> UpdateCompleteBidCount(CustomerBidCountDto customerBidCountDto)
         {
             var existingcustomer = await GetAsync(e => e.Id == customerBidCountDto.CustomerId).ConfigureAwait(false);
-
+            if(existingcustomer is null) { return new ResponseModel { Message = "Oops!! Could not retrieve your profile", Status = false }; }
             existingcustomer.UpdateCompleteBids(customerBidCountDto);
             var res = await UpdateAsync(existingcustomer);
-
-            return res;
+            return new ResponseModel { Message = res ? $"Hi, {existingcustomer.FirstName.ToSentenceCase()},your bid status was updated successfully" : "Oops!! something went wrong", Status = res };
         }
     }
 }

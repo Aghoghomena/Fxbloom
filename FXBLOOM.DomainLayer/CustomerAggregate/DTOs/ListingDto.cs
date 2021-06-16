@@ -10,9 +10,7 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate.DTOs
 
         public CurrencyDto AmountAvailable { get;  set; }
         public CurrencyDto AmountNeeded { get;  set; }
-        public Guid CustomerId { get; set; }
-
-        public Decimal MinExchangeAmount { get; set; }
-        public Decimal ExchangeRate { get; set; }
+        public decimal MinExchangeAmount { get; set; }
+        public decimal ExchangeRate { get; set; }
     }
 }
