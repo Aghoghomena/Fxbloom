@@ -19,7 +19,7 @@ using static FXBLOOM.SharedKernel.Enumerations;
 namespace FXBLOOM.PresentationLayer.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
     public class CustomerController : BaseController
@@ -37,7 +37,7 @@ namespace FXBLOOM.PresentationLayer.Controllers
 
         [HttpGet]
         [Produces(typeof(ResponseWrapper<List<Customer>>))]
-        public IActionResult Get()
+        public IActionResult GetAll()
         {
             return Ok(_customerRepository.GetCustomers());
         }
@@ -83,7 +83,7 @@ namespace FXBLOOM.PresentationLayer.Controllers
 
         }
 
-        [HttpPost("Status")]
+        [HttpPost]
         [Produces(typeof(ResponseWrapper<string>))]
         public async Task<IActionResult> CustomerStatus([FromQuery] CustomerStatus status)
         {
@@ -99,7 +99,7 @@ namespace FXBLOOM.PresentationLayer.Controllers
             return Ok(response.Message);
         }
 
-        [HttpPost("Password")]
+        [HttpPost]
         [Produces(typeof(ResponseWrapper<string>))]
         public async Task<IActionResult> Password([FromBody] PasswordDto passwordDto)
         {
@@ -112,7 +112,7 @@ namespace FXBLOOM.PresentationLayer.Controllers
         }
 
 
-        [HttpPost("CompleteBid")]
+        [HttpPost]
         [Produces(typeof(ResponseWrapper<string>))]
         public async Task<IActionResult> CompleteBid([FromBody] CustomerBidCountDto customerBidCountDto)
         {
@@ -124,7 +124,7 @@ namespace FXBLOOM.PresentationLayer.Controllers
                 return Ok(response.Message);
         }
 
-        [HttpPost("Login")]
+        [HttpPost]
         [Produces(typeof(ResponseWrapper<AuthenticationResponseDTO>))]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] AuthenticationRequestModel authenticationRequest)
