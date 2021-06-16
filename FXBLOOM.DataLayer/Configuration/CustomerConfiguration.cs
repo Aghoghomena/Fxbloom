@@ -18,7 +18,7 @@ namespace FXBLOOM.DataLayer.Configuration
             builder.Property(e => e.Address).HasMaxLength(500);
             builder.Property(e => e.Img).HasMaxLength(500);
             builder.Property(e => e.PostalCode).HasMaxLength(100);
-            builder.Property(e => e.Password).HasMaxLength(100);
+            builder.Property(e => e.Password).HasMaxLength(250);
             builder.OwnsOne(e => e.DomesticAcct, a =>
             {
                 a.Property(d => d.AccountNumber).HasMaxLength(500).IsRequired();
@@ -41,8 +41,7 @@ namespace FXBLOOM.DataLayer.Configuration
 
             builder.HasOne(d => d.Country)
                      .WithMany(p => p.Customers)
-                     .HasForeignKey(d => d.CountryId)
-                     .HasConstraintName("CustomerCountry").IsRequired(false);
+                     .HasForeignKey(d => d.CountryId);
 
             var listingNavigation = builder.Metadata.FindNavigation(nameof(Customer.Listings));
             listingNavigation.SetField("_listings");

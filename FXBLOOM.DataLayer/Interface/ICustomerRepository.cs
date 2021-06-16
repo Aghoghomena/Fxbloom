@@ -16,8 +16,8 @@ namespace FXBLOOM.DataLayer.Interface
         Task<bool> AddCustomer(Customer customer);
         //Task<IEnumerable<Customer>> GetCustomers();
 
-        Task<List<Customer>> GetCustomers();
-        Task<Customer> GetCustomer(Guid customerID);
+        Task <ResponseModel<List<Customer>>> GetCustomers();
+        Task <ResponseModel<Customer>> GetCustomer(Guid customerID);
         Task<PagedQueryResult<Customer>> GetConfirmedCustomers(PagedQueryRequest request);
         Task<PagedQueryResult<Customer>> GetRejectedCustomers(PagedQueryRequest request);
         Task<PagedQueryResult<Customer>> GetCustomersAwaitingConfirmation(PagedQueryRequest request);

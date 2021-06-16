@@ -42,18 +42,51 @@ namespace FXBLOOM.DataLayer.Implementation
         }
 
 
-        public Task<List<Customer>> GetCustomers()
-        {
-            var customers =  GetAll(e => e.Country, f => f.State).ToListAsync();
-            return customers;
+        //public Task<List<Customer>> GetCustomers()
+        //{
+        //    var customers =  GetAll(e => e.Country, f => f.State).ToListAsync();
+        //    return customers;
 
+        //}
+
+
+        public async Task<ResponseModel<List<Customer>>> GetCustomers()
+        {
+            ResponseModel<List<Customer>> responseModel = new ResponseModel<List<Customer>>();
+            var customers =   await GetAll(e => e.Country, f => f.State).ToListAsync();
+            if (customers is null) { 
+                return new ResponseModel<List<Customer>> { Message = "Oops!! Could not retrieve country list", Status = false }; 
+            }
+
+            responseModel.Message = "Sucesss";
+            responseModel.Status = true;
+            responseModel.Data = customers;
+
+
+            return responseModel;
         }
 
-        public async Task<Customer> GetCustomer(Guid customerID)
-        {
-            var customer = await GetAsync(e => e.Id == customerID, d => d.Listings).ConfigureAwait(false);
+        //public async Task<Customer> GetCustomer(Guid customerID)
+        //{
+        //    var customer = await GetAsync(e => e.Id == customerID, d => d.Listings).ConfigureAwait(false);
 
-            return customer;
+        //    return customer;
+        //}
+
+        public async Task<ResponseModel<Customer>> GetCustomer(Guid customerID)
+        {
+            ResponseModel<Customer> responseModel = new ResponseModel<Customer>();
+            var customer = await GetAsync(e => e.Id == customerID, d => d.Listings).ConfigureAwait(false);
+            if (customer is null)
+            {
+                return new ResponseModel<Customer> { Message = "Oops!! Could not retrieve customer details", Status = false };
+            }
+            responseModel.Message = "Sucesss";
+            responseModel.Status = true;
+            responseModel.Data = customer;
+
+
+            return responseModel;
         }
 
         public async Task<PagedQueryResult<Customer>> GetConfirmedCustomers(PagedQueryRequest request)

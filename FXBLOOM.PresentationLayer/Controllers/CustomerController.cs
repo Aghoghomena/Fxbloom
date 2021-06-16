@@ -39,7 +39,25 @@ namespace FXBLOOM.PresentationLayer.Controllers
         [Produces(typeof(ResponseWrapper<List<Customer>>))]
         public IActionResult GetAll()
         {
-            return Ok(_customerRepository.GetCustomers());
+           
+            try
+            {
+                var customers = await _customerRepository.GetCustomers();
+
+                if (customers.Status is false)
+                {
+                    return Error(customers.Message);
+                }
+
+                return Ok(customers);
+
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+
+            }
+
         }
 
 

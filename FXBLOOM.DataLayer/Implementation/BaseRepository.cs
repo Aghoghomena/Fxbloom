@@ -147,7 +147,15 @@ namespace FXBLOOM.DataLayer.Implementation
 
         public async Task<IQueryable<TEntity>> GetAllAsync()
         {
-            return await Task.FromResult(this.Entity.AsQueryable<TEntity>());
+            try
+            {
+                return await Task.FromResult(this.Entity.AsQueryable<TEntity>());
+            }
+            catch (Exception ex)
+            {
+                return await Task.FromResult(this.Entity.AsQueryable<TEntity>());
+            }
+            
         }
 
         //public async Task<IQueryable<TEntity>> GetAllAsyncWithChildren()
