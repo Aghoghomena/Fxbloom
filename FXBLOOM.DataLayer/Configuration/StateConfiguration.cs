@@ -14,7 +14,8 @@ namespace FXBLOOM.DataLayer.Configuration
         {
             builder.HasKey(e => e.StateId);
             builder.Property(e => e.StateId).ValueGeneratedOnAdd();
-            builder.Property(e => e.Statename).HasMaxLength(100).IsRequired();
+            builder.Property(e => e.Statename).HasMaxLength(500).IsRequired();
+            builder.Property(e => e.Dateadded).HasDefaultValueSql("getdate()");
 
         }
     }

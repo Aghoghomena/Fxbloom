@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace FXBLOOM.DataLayer.Interface
 {
-    public interface ISettingRepository
+    public interface IStateRepository
     {
-        Task<ResponseModel<Country>> GetCountries();
+        Task<ResponseModel<List<State>>> GetState();
+
+        Task<ResponseModel<List<State>>> GetCountryState(int countryid);
 
     }
 }

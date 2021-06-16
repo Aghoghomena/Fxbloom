@@ -16,11 +16,11 @@ namespace FXBLOOM.PresentationLayer.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize]
-    public class SettingsController : BaseController
+    public class CountryController : BaseController
     {
         private ILog _logger;
-        private ISettingRepository _settingRepository;
-        public SettingsController(ILog logger, ISettingRepository settingRepository)
+        private ICountryRepository _settingRepository;
+        public CountryController(ILog logger, ICountryRepository settingRepository)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _settingRepository = settingRepository;
@@ -40,7 +40,7 @@ namespace FXBLOOM.PresentationLayer.Controllers
                     return Error(country.Message);
                 }
 
-                return Ok(country.Data);
+                return Ok(country);
 
             }
             catch (Exception ex)

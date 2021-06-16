@@ -11,7 +11,7 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
 
         public int CountryId { get; private set; }
 
-        public DateTime Dateadded { get; private set; }
+        public DateTime? Dateadded { get; private set; }
 
         [System.Text.Json.Serialization.JsonIgnore]
         public virtual Customer Customers { get; private set; }
