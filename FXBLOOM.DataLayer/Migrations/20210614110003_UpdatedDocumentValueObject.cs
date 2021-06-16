@@ -7,40 +7,6 @@ namespace FXBLOOM.DataLayer.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Bid_Currency_AmountId",
-                table: "Bid");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Listing_Currency_AmountAvailableId",
-                table: "Listing");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Listing_Currency_AmountNeededId",
-                table: "Listing");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_State_Country_CountryId",
-                table: "State");
-
-            migrationBuilder.DropTable(
-                name: "Currency");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Listing_AmountAvailableId",
-                table: "Listing");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Listing_AmountNeededId",
-                table: "Listing");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Bid_AmountId",
-                table: "Bid");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Country",
-                table: "Country");
 
             migrationBuilder.RenameTable(
                 name: "Country",
@@ -106,19 +72,6 @@ namespace FXBLOOM.DataLayer.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Countries",
-                table: "Countries",
-                column: "CountryId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_State_Countries_CountryId",
-                table: "State",
-                column: "CountryId",
-                principalTable: "Countries",
-                principalColumn: "CountryId",
-                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
