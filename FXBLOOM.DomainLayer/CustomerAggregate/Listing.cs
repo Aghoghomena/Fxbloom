@@ -66,20 +66,6 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             return response;
         }
 
-        public static Listing CreateListing(ListingDto listingDto)
-        {
-            Listing listing = new Listing();
-            listing.AmountAvailable = Currency.CreateCurrency(listingDto.AmountAvailable);
-            listing.AmountNeeded = Currency.CreateCurrency(listingDto.AmountNeeded);
-            listing.CustomerId = listingDto.CustomerId;
-            listing.DateCreated = System.DateTime.Now;
-            listing.Status = ListingStatus.OPEN;
-            listing.ExchangeRate = listingDto.ExchangeRate;
-            listing.MinExchangeAmount = listingDto.MinExchangeAmount;
-
-            return listing;
-        }
-
         public void SetStatus(ListingStatus listingStatus)
         {
             Status = listingStatus;
