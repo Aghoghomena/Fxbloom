@@ -103,19 +103,12 @@ namespace FXBLOOM.PresentationLayer.Controllers
         [Produces(typeof(ResponseWrapper<string>))]
         public async Task<IActionResult> Password([FromBody] PasswordDto passwordDto)
         {
-            try
-            {
                 var response = await _customerRepository.ChangePassword(passwordDto);
-                if (response == false)
+                if (response.Status is false)
                 {
-                    return Error("Oops!! Something went wrong with the code");
+                    return Error(response.Message);
                 }
-                return Ok("Customer password changed Sucessfully");
-            }
-            catch (Exception ex)
-            {
-                return Error(ex.Message);
-            }
+                return Ok(response.Message);
         }
 
 
@@ -123,25 +116,17 @@ namespace FXBLOOM.PresentationLayer.Controllers
         [Produces(typeof(ResponseWrapper<string>))]
         public async Task<IActionResult> CompleteBid([FromBody] CustomerBidCountDto customerBidCountDto)
         {
-            try
-            {
-
-
                 var response = await _customerRepository.UpdateCompleteBidCount(customerBidCountDto);
-                if (response == false)
+                if (response.Status is false)
                 {
-                    return Error("OOPS Something went wrong with the code");
+                    return Error(response.Message);
                 }
-                return Ok("Customer Completed Bids Updated Sucessfully");
-            }
-            catch (Exception ex)
-            {
-                return Error(ex.Message);
-            }
+                return Ok(response.Message);
         }
 
         [HttpPost("Login")]
         [Produces(typeof(ResponseWrapper<AuthenticationResponseDTO>))]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] AuthenticationRequestModel authenticationRequest)
         {
             _ = authenticationRequest ?? throw new ArgumentNullException(nameof(AuthenticationRequestModel));
@@ -153,6 +138,20 @@ namespace FXBLOOM.PresentationLayer.Controllers
             }
 
             return Ok(response.Data);
+        }
+
+        [HttpGet]
+        [Produces(typeof(ResponseWrapper<string>))]
+        public async Task<IActionResult> ReIssueToken()
+        {
+            var profileIdClaim = User.Claims.FirstOrDefault(c => c.Type == FXBloomsClaimTypes.CustomerId);
+            var customerID = Guid.Parse(profileIdClaim.Value);
+
+            var customer = await _customerRepository.GetCustomer(customerID);
+            if(customer is null) { return Error("Oops!! Could not retrieve you profile. Try again"); }
+
+            string jwtToken = customer.GETJWT();
+            return Ok(jwtToken);
         }
     }
 }

@@ -27,10 +27,10 @@ namespace FXBLOOM.DataLayer.Interface
         Task<ResponseModel> UpdateStatus(Guid customerID, CustomerStatus status);
 
 
-        Task<bool> ChangePassword(PasswordDto passwordDto);
+        Task<ResponseModel> ChangePassword(PasswordDto passwordDto);
 
 
-        Task<bool> UpdateCompleteBidCount(CustomerBidCountDto customerBidCountDto);
+        Task<ResponseModel> UpdateCompleteBidCount(CustomerBidCountDto customerBidCountDto);
 
         Task<ResponseModel<AuthenticationResponseDTO>> AuthenticateCustomer(string username, string password);
     }

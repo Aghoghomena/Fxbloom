@@ -6,6 +6,7 @@ using FXBLOOM.SharedKernel.Logging.NlogFile;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SecurityCore.Token;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,25 +33,23 @@ namespace FXBLOOM.PresentationLayer.Controllers
         [Produces(typeof(ResponseWrapper<string>))]
         public async Task<IActionResult> AddListing(ListingDto listingDto)
         {
-            try
+            //validate the amount of completed bids to ensure customer enters their account number
+
+            var profileIdClaim = User.Claims.FirstOrDefault(c => c.Type == FXBloomsClaimTypes.CustomerId);
+            var customerID = Guid.Parse(profileIdClaim.Value);
+
+            var response = await _listingRepository.AddListing(customerID, listingDto);
+            if (response.Status == false)
             {
-                //validate the amount of completed bids to ensure customer enters their account number
-                var response = await _listingRepository.AddListing(Listing.CreateListing(listingDto));
-                if (response == false)
-                {
-                    return Error("OOPS Something went wrong with the code");
-                }
-                return Ok("Listing Created Sucessfully");
+                return Error(response.Message);
             }
-            catch (Exception ex)
-            {
-                return Error(ex.Message);
-            }
+
+            return Ok(response.Message);
         }
 
 
         [HttpGet]
-        [Produces(typeof(ResponseWrapper<string>))]
+        [Produces(typeof(ResponseWrapper<List<Listing>>))]
         public IActionResult Get()
         {
             //return Ok("Hello World");
@@ -62,42 +61,28 @@ namespace FXBLOOM.PresentationLayer.Controllers
         [Produces(typeof(ResponseWrapper<string>))]
         public async Task<IActionResult> UpdateList(EditListingDto editListingDto)
         {
-            try
+            //can only update listings have bo bid
+            var response = await _listingRepository.EditListing(editListingDto);
+            if (response.Status == false)
             {
-                //can only update listings have bo bid
-                var response = await _listingRepository.EditListing(editListingDto);
-                if (response == false)
-                {
-                    return Error("OOPS Something went wrong with the code");
-                }
-                return Ok("Listing Edited Sucessfully");
+                return Error(response.Message);
             }
-            catch (Exception ex)
-            {
-                return Error(ex.Message);
-            }
+            return Ok(response.Message);
+
         }
 
         [HttpDelete]
         [Produces(typeof(ResponseWrapper<string>))]
         public async Task<IActionResult> deleteListing(Guid listingId)
         {
-            try
+            //can only update listings have bo bid
+            var response = await _listingRepository.DeleteListing(listingId);
+            if (response.Status == false)
             {
-                //can only update listings have bo bid
-                var response = await _listingRepository.DeleteListing(listingId);
-                if (response == false)
-                {
-                    return Error("OOPS Something went wrong with the code");
-                }
-                return Ok("Listing Removed Sucessfully");
+                return Error(response.Message);
             }
-            catch (Exception ex)
-            {
-                return Error(ex.Message);
-            }
+            return Ok(response.Message);
+
         }
-
-
     }
 }
