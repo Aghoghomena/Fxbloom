@@ -20,7 +20,7 @@ namespace FXBLOOM.DataLayer.Context
 
         public DbSet<Listing> Listing { get; set; }
 
-        public DbSet<Country> Countries { get; set; }
+        //public DbSet<Country> Countries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

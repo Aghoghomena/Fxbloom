@@ -19,7 +19,7 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
 
         public string PhoneNo { get; private set; }
 
-        public int CountryId { get; private set; }
+        public int?  CountryId { get; private set; }
         public virtual Country Country { get; set; }
 
         public int? StateId { get; private set; }
@@ -45,7 +45,7 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
         public IReadOnlyCollection<Listing> Listings => _listings;
         public DateTime DateCreated { get; private set; } = System.DateTime.Now;
         public DateTime? DateConfirmed { get; private set; }
-        public DateTime LastDateLoggedIn { get; private set; }
+        public DateTime? LastDateLoggedIn { get; private set; }
 
         public int? ClosedBids { get; private set; } = 0;
         public Customer():base(Guid.NewGuid())
