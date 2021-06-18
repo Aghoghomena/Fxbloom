@@ -73,10 +73,11 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             return customer;
         }
 
-        public void AddListing(ListingDto listingDto)
+        public Listing AddListing(ListingDto listingDto)
         {
             Listing listing = Listing.CreateListing(Id, listingDto);
             _listings.Add(listing);
+            return listing;
         }
 
         public Listing GetListing(Guid listingId)

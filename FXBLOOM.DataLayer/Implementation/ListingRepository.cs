@@ -27,7 +27,7 @@ namespace FXBLOOM.DataLayer.Implementation
             var existingcustomer = await Schema<Customer>().GetAsync(e => e.Id == Id, d => d.Listings).ConfigureAwait(false);
             if(existingcustomer is null) { return new ResponseModel { Message = "Oops!! Could not retrieve your profile", Status = false }; }
 
-            existingcustomer.AddListing(listing);
+            AddEntity(existingcustomer.AddListing(listing));
             var res = await Schema<Customer>().UpdateAsync(existingcustomer);
 
             return new ResponseModel
