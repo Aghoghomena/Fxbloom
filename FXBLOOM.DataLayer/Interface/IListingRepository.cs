@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using static FXBLOOM.SharedKernel.Enumerations;
 
 namespace FXBLOOM.DataLayer.Interface
 {
@@ -13,10 +14,16 @@ namespace FXBLOOM.DataLayer.Interface
 
         Task<ResponseModel> AddListing(Guid Id, ListingDto listing);
 
-        Task<List<Listing>> GetListings();
+        Task<ResponseModel<List<Listing>>> GetListings();
 
         Task<ResponseModel> EditListing(EditListingDto editListingDto);
 
         Task<ResponseModel> DeleteListing(Guid listingId);
+
+        Task<ResponseModel> UpdateStatus(ListingStatusDTO listingStatusDTO);
+
+        Task<ResponseModel<List<Listing>>> GetFilteredListings(ListingStatus listingStatus);
+
+        Task<ResponseModel<Listing>> GetListing(Guid listingId);
     }
 }

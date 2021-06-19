@@ -16,15 +16,25 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
         {
 
         }
-        internal static Bid AddBid(Guid listingId, BidDto bidDto)
+        internal static Bid AddBid(Guid listingId, BidDto bidDto, Guid customerId)
         {
             // Add checks to ensure amount is not 0
 
             return new Bid
             {
-                Amount = bidDto.Amount,
-                CustomerId = bidDto.CustomerId
+                Amount = Currency.CreateCurrency(bidDto.Amount),
+                CustomerId = customerId
             };
+        }
+
+        internal static Bid createBid(BidDto bidDto, Guid customerId)
+        {
+            Bid bid = new Bid();
+            bid.Amount = Currency.CreateCurrency(bidDto.Amount);
+            bid.CustomerId  = customerId;
+            bid.ListingId = bidDto.ListingId;
+
+            return bid;
         }
     }
 }

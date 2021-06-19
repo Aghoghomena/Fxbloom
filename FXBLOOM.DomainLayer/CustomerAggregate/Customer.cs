@@ -45,7 +45,7 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
         public IReadOnlyCollection<Listing> Listings => _listings;
         public DateTime DateCreated { get; private set; } = System.DateTime.Now;
         public DateTime? DateConfirmed { get; private set; }
-        public DateTime? LastDateLoggedIn { get; private set; }
+        public DateTime? LastDateLoggedIn { get; private set; } = System.DateTime.Now;
 
         public int? ClosedBids { get; private set; } = 0;
         public Customer():base(Guid.NewGuid())
@@ -73,12 +73,25 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             return customer;
         }
 
-        public void AddListing(ListingDto listingDto)
+        //public void AddListing(ListingDto listingDto)
+        //{
+        //    Listing listing = Listing.CreateListing(Id, listingDto);
+        //    _listings.Add(listing);
+        //}
+
+        public Listing AddListing(ListingDto listingDto)
         {
             Listing listing = Listing.CreateListing(Id, listingDto);
             _listings.Add(listing);
+            return listing;
         }
 
+        public ResponseModel ValidateListing(ListingDto listingDto)
+        {
+            ResponseModel response = new ResponseModel();
+            response = Listing.ValidateListing(listingDto);
+            return response;
+        }
         public Listing GetListing(Guid listingId)
         {
             var listing = _listings.SingleOrDefault(e => e.Id == listingId);

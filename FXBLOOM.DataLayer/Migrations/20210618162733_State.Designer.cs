@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FXBLOOM.DataLayer.Migrations
 {
     [DbContext(typeof(FXBloomContext))]
-    [Migration("20210616191057_updateState2")]
-    partial class updateState2
+    [Migration("20210618162733_State")]
+    partial class State
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,8 +111,8 @@ namespace FXBLOOM.DataLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("PhoneNo")
                         .HasColumnType("nvarchar(max)");

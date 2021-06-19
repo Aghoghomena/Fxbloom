@@ -25,6 +25,7 @@ namespace FXBLOOM.DataLayer.Configuration
 
             builder.Property(e => e.DateCreated).IsRequired();
             builder.Property(e => e.Status).IsRequired();
+            builder.Property(e => e.Id).ValueGeneratedOnAdd();
 
             var bidNavigation = builder.Metadata.FindNavigation(nameof(Listing.Bids));
             bidNavigation.SetField("_bids");

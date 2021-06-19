@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static FXBLOOM.SharedKernel.Enumerations;
 
 namespace FXBLOOM.PresentationLayer.Controllers
 {
@@ -31,33 +32,48 @@ namespace FXBLOOM.PresentationLayer.Controllers
 
         [HttpPost]
         [Produces(typeof(ResponseWrapper<string>))]
-        public async Task<IActionResult> AddListing(ListingDto listingDto)
+        public async Task<IActionResult> AddListing([FromBody] ListingDto listingDto)
         {
+            try
+            {
+
+                var profileIdClaim = User.Claims.FirstOrDefault(c => c.Type == FXBloomsClaimTypes.CustomerId);
+                var customerID = Guid.Parse(profileIdClaim.Value);
+
+                var response = await _listingRepository.AddListing(customerID, listingDto);
+                if (response.Status == false)
+                {
+                    return Error(response.Message);
+                }
+
+                return Ok(response.Message);
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
             //validate the amount of completed bids to ensure customer enters their account number
 
-            var profileIdClaim = User.Claims.FirstOrDefault(c => c.Type == FXBloomsClaimTypes.CustomerId);
-            var customerID = Guid.Parse(profileIdClaim.Value);
-
-            var response = await _listingRepository.AddListing(customerID, listingDto);
-            if (response.Status == false)
-            {
-                return Error(response.Message);
-            }
-
-            return Ok(response.Message);
         }
+
+
 
 
         [HttpGet]
         [Produces(typeof(ResponseWrapper<List<Listing>>))]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             //return Ok("Hello World");
 
-            return Ok(_listingRepository.GetListings());
+            var response = await _listingRepository.GetListings();
+            if (response.Status == false)
+            {
+                return Error(response.Message);
+            }
+            return Ok(response);
         }
 
-        [HttpPatch]
+        [HttpPost]
         [Produces(typeof(ResponseWrapper<string>))]
         public async Task<IActionResult> UpdateList(EditListingDto editListingDto)
         {
@@ -67,7 +83,7 @@ namespace FXBLOOM.PresentationLayer.Controllers
             {
                 return Error(response.Message);
             }
-            return Ok(response.Message);
+            return Ok(response);
 
         }
 
@@ -81,8 +97,53 @@ namespace FXBLOOM.PresentationLayer.Controllers
             {
                 return Error(response.Message);
             }
-            return Ok(response.Message);
+            return Ok(response);
 
+        }
+
+
+        [HttpPost]
+        [Produces(typeof(ResponseWrapper<string>))]
+        public async Task<IActionResult> UpdateListingStatus(ListingStatusDTO listingStatusDTO)
+        {
+            //can only update listings have bo bid
+            var response = await _listingRepository.UpdateStatus(listingStatusDTO);
+            if (response.Status == false)
+            {
+                return Error(response.Message);
+            }
+            return Ok(response);
+
+        }
+
+        [HttpGet]
+        [Produces(typeof(ResponseWrapper<List<Listing>>))]
+        public async Task<IActionResult> filterListing(ListingStatus listingStatus)
+        {
+            //return Ok("Hello World");
+
+            var response = await _listingRepository.GetFilteredListings(listingStatus);
+            if (response.Status == false)
+            {
+                return Error(response.Message);
+            }
+            return Ok(response);
+        }
+
+
+        [HttpGet]
+        [Route("{listingId}")]
+        [Produces(typeof(ResponseWrapper<List<Listing>>))]
+        public async Task<IActionResult> Get(Guid listingId)
+        {
+            //return Ok("Hello World");
+
+            var response = await _listingRepository.GetListing(listingId);
+            if (response.Status == false)
+            {
+                return Error(response.Message);
+            }
+            return Ok(response);
         }
     }
 }

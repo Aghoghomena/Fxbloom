@@ -16,6 +16,7 @@ namespace FXBLOOM.DataLayer
             services.AddScoped<IListingRepository, ListingRepository>();
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IStateRepository, StateRepository>();
+            services.AddScoped<IBidRepository, BiddingRepository>();
             return services;
         }
     }

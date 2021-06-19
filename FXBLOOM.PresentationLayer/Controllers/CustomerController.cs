@@ -37,7 +37,7 @@ namespace FXBLOOM.PresentationLayer.Controllers
 
         [HttpGet]
         [Produces(typeof(ResponseWrapper<List<Customer>>))]
-        public IActionResult GetAll()
+        public  async Task<IActionResult> GetAll()
         {
            
             try
@@ -168,7 +168,7 @@ namespace FXBLOOM.PresentationLayer.Controllers
             var customer = await _customerRepository.GetCustomer(customerID);
             if(customer is null) { return Error("Oops!! Could not retrieve you profile. Try again"); }
 
-            string jwtToken = customer.GETJWT();
+            string jwtToken = customer.Data.GETJWT();
             return Ok(jwtToken);
         }
     }

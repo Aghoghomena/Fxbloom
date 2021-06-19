@@ -6,8 +6,8 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate.DTOs
 {
     public class BidDto
     {
-        public Guid CustomerId { get; set; }
-        public Currency Amount { get; set; }
+        //public Guid CustomerId { get; set; }
+        public CurrencyDto Amount { get; set; }
 
         public Guid ListingId { get; set; }
 

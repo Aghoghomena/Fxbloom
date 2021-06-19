@@ -23,9 +23,13 @@ namespace FXBLOOM.DomainLayer.CustomerAggregate
             return currency;
         }
 
-        internal void UpdateAmount(decimal amount)
+        internal static Currency UpdateAmount(decimal amount, Currency existingcurrency)
         {
-            Amount = amount;
+            Currency currency = new Currency();
+            currency.CurrencyType = existingcurrency.CurrencyType;
+            currency.Amount = amount;
+
+            return currency;
         }
     }
 }
